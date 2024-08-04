@@ -1,0 +1,21 @@
+server:
+  port: 8000
+
+mongodb:
+  uri: mongodb://localhost:27017/kanbanboard
+
+# Eureka instance configuration
+eureka:
+  appName: taskmanagement
+  instanceId: taskmanagement-instance-1
+  hostName: localhost
+  ipAddr: 127.0.0.1
+  vipAddress: taskmanagement
+  secureVipAddress: taskmanagement
+  dataCenterName: MyOwn
+
+# Eureka server configuration
+eurekaServer:
+  host: localhost
+  port: 8761
+  servicePath: /eureka/apps/

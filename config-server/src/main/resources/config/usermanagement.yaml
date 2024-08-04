@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761//eureka/
+  instance:
+    hostname: my-springboot-app
+    ipAddr: 127.0.0.1
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:usermanagement
+  h2:
+    console:
+      enabled: true
+      path: /h2
