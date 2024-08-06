@@ -19,6 +19,14 @@ const taskSchema = new mongoose.Schema(
       },
       default: "Draft",
     },
+    priority: {
+      type: String,
+      enum: {
+        values: ["High", "Medium", "Low"],
+        message: "{VALUE} is not a valid priority",
+      },
+      required: [true, "Title is required"],
+    },
     owner: {
       type: String,
       trim: true,

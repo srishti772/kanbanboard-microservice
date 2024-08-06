@@ -8,9 +8,13 @@ import com.kanbanboard.usermanagement.dto.UpdateUserProfile;
 import com.kanbanboard.usermanagement.entity.User;
 import com.kanbanboard.usermanagement.service.UserService;
 import com.kanbanboard.usermanagement.service.UserServiceImpl;
+import com.kanbanboard.usermanagement.service.TaskService;
+import com.kanbanboard.usermanagement.entity.Task;
+
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -33,6 +37,7 @@ public class UserController {
 
 
     public UserService userService;
+    public TaskService taskService;
 
     @GetMapping("/{nuid}")
     public ResponseEntity<User> getUser(@PathVariable String nuid) {
@@ -67,7 +72,12 @@ public class UserController {
             userService.deleteUser(nuid);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        
+            }
+
+    @GetMapping("/{userId}/tasks")
+    public Mono<List<Task>> getTasksByUserId(@PathVariable String userId) {
+        return taskService.getTasksByUserId(userId);
     }
+
     
 }

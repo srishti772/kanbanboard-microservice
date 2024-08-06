@@ -76,7 +76,7 @@ const updateTask = async (req, res, next) => {
 const getUserTasks = async (req, res, next) => {
   try {
     const userTasks = await TaskService.getTasksByUserId(req.params.nuid);
-    res.status(200).json({ data: userTasks });
+    res.status(200).json(userTasks);
   } catch (error) {
     next(error); // Forward error to error-handling middleware
   }
