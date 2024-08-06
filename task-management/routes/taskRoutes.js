@@ -9,6 +9,7 @@ router.get("/", TaskController.getAllTasks);
 router.post("/", TaskController.createTask);
 
 router.get("/:id", TaskController.getATask);
+router.get("/user/:nuid", TaskController.getUserTasks);
 
 router.put("/:id", TaskController.updateTask);
 

@@ -20,16 +20,8 @@ const taskSchema = new mongoose.Schema(
       default: "Draft",
     },
     owner: {
-      type: [String],
-      validate: {
-        validator: function (arr) {
-            if (arr === undefined ||  arr.length===0) {
-                return true;
-              }
-              return arr.length === 2;
-        },
-        message: "Owner array must contain exactly two elements: [nuid, name]",
-      },
+      type: String,
+      trim: true,
     },
     createdAt: {
       type: Date,

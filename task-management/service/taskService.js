@@ -43,4 +43,12 @@ const deleteTask = async (id) => {
   }
 };
 
-module.exports = { createTask, getAllTasks, getATask, updateTask, deleteTask };
+const getTasksByUserId = async (nuid) =>{
+  try{
+    return await TaskModel.find({owner: nuid});
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+module.exports = { createTask, getAllTasks, getATask, updateTask, deleteTask, getTasksByUserId };

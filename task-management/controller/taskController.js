@@ -62,17 +62,25 @@ const deleteTask = async (req, res, next) => {
   }
 };
 const updateTask = async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      await findTaskOrThrow(id); // Validate ID and ensure the task exists
-  
-      const task = await TaskService.updateTask(id, req.body);
-      res.status(200).json({ data: task });
-    } catch (error) {
-      next(error); // Forward error to error-handling middleware
-    }
-  };
-  
+  try {
+    const { id } = req.params;
+    await findTaskOrThrow(id); // Validate ID and ensure the task exists
+
+    const task = await TaskService.updateTask(id, req.body);
+    res.status(200).json({ data: task });
+  } catch (error) {
+    next(error); // Forward error to error-handling middleware
+  }
+};
+
+const getUserTasks = async (req, res, next) => {
+  try {
+    const userTasks = await TaskService.getTasksByUserId(req.params.nuid);
+    res.status(200).json({ data: userTasks });
+  } catch (error) {
+    next(error); // Forward error to error-handling middleware
+  }
+};
 
 module.exports = {
   createTask,
@@ -80,4 +88,5 @@ module.exports = {
   getATask,
   updateTask,
   deleteTask,
+  getUserTasks,
 };
