@@ -58,5 +58,17 @@ public class User {
 
 	
 
+	@Override
+	public String toString() {
+		return "{" +
+			" id='" + getId() + "'" +
+			", nuid='" + getNuid() + "'" +
+			", firstName='" + getFirstName() + "'" +
+			", lastName='" + getLastName() + "'" +
+			", email='" + getEmail() + "'" +
+			", password='" + getPassword() + "'" +
+			"}";
+	}
+
 
 }

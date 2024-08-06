@@ -7,12 +7,15 @@ import com.kanbanboard.usermanagement.dto.UpdateUserPassword;
 import com.kanbanboard.usermanagement.dto.UpdateUserProfile;
 import com.kanbanboard.usermanagement.entity.User;
 import com.kanbanboard.usermanagement.service.UserService;
+import com.kanbanboard.usermanagement.service.UserServiceImpl;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/api/users")
 @AllArgsConstructor
 public class UserController {
+
 
     public UserService userService;
 
@@ -43,8 +47,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+
         return new ResponseEntity<>(userService.saveUser(user),HttpStatus.CREATED);
-   
     }
 
     @PutMapping("/profile/{nuid}")

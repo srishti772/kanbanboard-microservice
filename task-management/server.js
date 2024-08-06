@@ -4,6 +4,8 @@ const { connectDB } = require("./config/db");
 const errorHandler = require("./utils/errorHandler");
 const loadConfig = require("./config/configLoader");
 const registerService = require("./config/eurekaClient");
+const { initializeTracer, getTracer, expressMiddleware } = require("./config/tracing");
+
 
 const app = express();
 
@@ -11,6 +13,9 @@ const startServer = async () => {
   try {
     console.log("loading config");
     await loadConfig(); // Load configuration from Config Server
+
+     // Initialize Zipkin Tracer
+     await initializeTracer();
 
     // Log loaded environment variables
 
@@ -22,6 +27,12 @@ const startServer = async () => {
 
     // Middleware
     app.use(express.json());
+
+      // Middleware for Zipkin tracing
+        // Zipkin Trace Middleware
+       // Zipkin Trace Middleware
+       const tracer = getTracer();
+       app.use(expressMiddleware({ tracer, serviceName: process.env.EUREKA_APPNAME}));
 
     // Routes
     app.use("/api/tasks", taskRoutes);

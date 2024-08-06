@@ -19,3 +19,7 @@ eurekaServer:
   host: localhost
   port: 8761
   servicePath: /eureka/apps/
+
+# Zipkin configuration
+zipkin:
+  baseUrl: http://localhost:9411

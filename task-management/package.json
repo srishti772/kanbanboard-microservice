@@ -11,10 +11,15 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.3",
+    "cls-hooked": "^4.2.2",
     "dotenv": "^16.4.5",
     "eureka-js-client": "^4.5.0",
     "express": "^4.19.2",
     "mongoose": "^8.5.2",
-    "task-management": "file:"
+    "opentracing": "^0.14.7",
+    "task-management": "file:",
+    "zipkin": "^0.22.0",
+    "zipkin-instrumentation-express": "^0.22.0",
+    "zipkin-transport-http": "^0.22.0"
   }
 }

@@ -6,7 +6,7 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761//eureka/
   instance:
-    hostname: my-springboot-app
+    hostname: localhost
     ipAddr: 127.0.0.1
 
 spring:
@@ -16,3 +16,8 @@ spring:
     console:
       enabled: true
       path: /h2
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
