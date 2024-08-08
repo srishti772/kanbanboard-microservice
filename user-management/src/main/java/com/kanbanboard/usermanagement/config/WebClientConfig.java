@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
+import com.kanbanboard.usermanagement.exception.ServiceUnavailableException;
 
 import lombok.AllArgsConstructor;
 
@@ -17,10 +18,13 @@ public class WebClientConfig {
 
     @Bean
     public WebClient taskWebClient() {
-        return WebClient.builder()
+       try{ return WebClient.builder()
                 .baseUrl("http://taskmanagement") // Service ID registered in Eureka
                 .filter(filterFunction)
-                .build();
+                .build(); }
+        catch(Exception ex){
+            throw ex;
+        }
     }
 
  

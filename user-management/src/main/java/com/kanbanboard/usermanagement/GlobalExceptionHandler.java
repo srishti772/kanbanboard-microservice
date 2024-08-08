@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.kanbanboard.usermanagement.exception.ErrorResponse;
-import com.kanbanboard.usermanagement.exception.UserNotFoundException;
+import com.kanbanboard.usermanagement.exception.*;
+
 import java.lang.Exception;
 
 @ControllerAdvice
@@ -32,8 +32,8 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getAllErrors().forEach((e)-> errors.add(e.getDefaultMessage()));
         return new ResponseEntity<>(new ErrorResponse(errors),HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex){
+    @ExceptionHandler({UserNotFoundException.class , ServiceUnavailableException.class})
+    public ResponseEntity<Object> handleEntityNotFoundException(UserNotFoundException ex){
         ErrorResponse err = new ErrorResponse(Arrays.asList(ex.getMessage()));
         return new ResponseEntity<>(err,HttpStatus.NOT_FOUND);
     }

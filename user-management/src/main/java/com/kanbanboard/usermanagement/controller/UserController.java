@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kanbanboard.usermanagement.dto.UpdateUserPassword;
 import com.kanbanboard.usermanagement.dto.UpdateUserProfile;
+import com.kanbanboard.usermanagement.dto.UserData;
 import com.kanbanboard.usermanagement.entity.User;
+import com.kanbanboard.usermanagement.exception.ServiceUnavailableException;
 import com.kanbanboard.usermanagement.service.UserService;
 import com.kanbanboard.usermanagement.service.UserServiceImpl;
 import com.kanbanboard.usermanagement.service.TaskService;
@@ -40,30 +42,34 @@ public class UserController {
     public TaskService taskService;
 
     @GetMapping("/{nuid}")
-    public ResponseEntity<User> getUser(@PathVariable String nuid) {
+    public ResponseEntity<UserData> getUser(@PathVariable String nuid) {
         return new ResponseEntity<>(userService.getUser(nuid),HttpStatus.OK);
     }
 
      @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<UserData>> getUsers() {
         return new ResponseEntity<>(userService.getUsers(),HttpStatus.OK);
     }
   
 
     @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+    public ResponseEntity<UserData> createUser(@Valid @RequestBody User user) {
 
         return new ResponseEntity<>(userService.saveUser(user),HttpStatus.CREATED);
     }
 
     @PutMapping("/profile/{nuid}")
-    public ResponseEntity<User> updateUser(@PathVariable String nuid, @Valid @RequestBody UpdateUserProfile user) {
+    public ResponseEntity<UserData> updateUser(@PathVariable String nuid, @Valid @RequestBody UpdateUserProfile user) {
         return new ResponseEntity<>(userService.updateUserProfile(nuid, user),HttpStatus.OK);
     }
     
     @PutMapping("/password/{nuid}")
-    public ResponseEntity<User> updateUserPassword(@PathVariable String nuid, @Valid @RequestBody UpdateUserPassword user) {
+    public ResponseEntity<UserData> updateUserPassword(@PathVariable String nuid, @Valid @RequestBody UpdateUserPassword user) {
         return new ResponseEntity<>(userService.updateUserPassword(nuid, user),HttpStatus.OK);
+    }
+    @PutMapping("/{nuid}")
+    public ResponseEntity<UserData> updateUser(@PathVariable String nuid, @Valid @RequestBody User user) {
+        return new ResponseEntity<>(userService.updateUser(nuid, user),HttpStatus.OK);
     }
     
     @DeleteMapping("/{nuid}")
@@ -76,7 +82,8 @@ public class UserController {
 
     @GetMapping("/{userId}/tasks")
     public Mono<List<Task>> getTasksByUserId(@PathVariable String userId) {
-        return taskService.getTasksByUserId(userId);
+       return taskService.getTasksByUserId(userId);
+        
     }
 
     

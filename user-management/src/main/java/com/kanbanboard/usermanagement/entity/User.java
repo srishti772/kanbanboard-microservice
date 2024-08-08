@@ -6,6 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+import java.util.List;
 
 import com.kanbanboard.usermanagement.validator.email;
 
@@ -56,7 +59,9 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
-	
+	@Column(nullable = false)
+    private String roles = "ROLE_USER"; // Default role
+
 
 	@Override
 	public String toString() {
@@ -67,8 +72,9 @@ public class User {
 			", lastName='" + getLastName() + "'" +
 			", email='" + getEmail() + "'" +
 			", password='" + getPassword() + "'" +
+			", roles='" + getRoles() + "'" +
 			"}";
 	}
-
+	
 
 }
