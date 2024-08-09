@@ -1,35 +1,5 @@
-server:
-  port: 8060
-
 spring:
   application:
-    name: api-gateway
-  cloud:
-    gateway:
-      routes:
-        - id: task-management
-          uri: http://localhost:8000
-          predicates:
-            - Path=/task-management/**
-          filters:
-            - StripPrefix=1
-
-        - id: user-management
-          uri: http://localhost:8080
-          predicates:
-            - Path=/user-management/**
-          filters:
-            - StripPrefix=1
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: 'loggers'
-  endpoint:
-    loggers:
-      enabled: true
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
+    name: apigateway
+  config:
+    import: "optional:configserver:http://localhost:8088"

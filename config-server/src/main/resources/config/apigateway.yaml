@@ -1,0 +1,30 @@
+server:
+  port: 8060
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: task-management
+          uri: lb://taskmanagement
+          predicates:
+            - Path=/task-management/**
+          filters:
+            - StripPrefix=1
+
+        - id: user-management
+          uri: lb://usermanagement
+          predicates:
+            - Path=/user-management/**
+          filters:
+            - StripPrefix=1
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761//eureka/
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
