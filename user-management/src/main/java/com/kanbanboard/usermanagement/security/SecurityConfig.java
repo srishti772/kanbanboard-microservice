@@ -40,9 +40,12 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.GET, SecurityConstants.GET_USER_PATH).hasAnyRole("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, SecurityConstants.GET_TASKS).hasAnyRole("USER", "ADMIN")
 
-            .requestMatchers(HttpMethod.GET, SecurityConstants.UPDATE_USER_PATH).hasRole("ADMIN")
-            .requestMatchers(HttpMethod.PUT, SecurityConstants.GET_USERS_PATH).hasRole("ADMIN")
+            .requestMatchers(HttpMethod.PUT, SecurityConstants.UPDATE_USER_PATH).hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, SecurityConstants.GET_USERS_PATH).hasRole("ADMIN")
             .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, SecurityConstants.AUTHORIZATION_PATH).hasAnyRole("USER", "ADMIN")
+
+
             
             .requestMatchers(HttpMethod.PUT,SecurityConstants.UPDATE_USER_PROFILE_PATH).hasRole("USER")
             .requestMatchers(HttpMethod.PUT,SecurityConstants.UPDATE_USER_PASSWORD_PATH).hasRole("USER")

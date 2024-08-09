@@ -1,6 +1,8 @@
 const Eureka = require("eureka-js-client").Eureka;
 const dotenv = require("dotenv");
 const path = require("path");
+const axios = require('axios');
+
 
 // Load environment variables from .env file
 dotenv.config({ path: path.resolve(__dirname, "..", ".env") });
@@ -36,6 +38,10 @@ const createEurekaClient = () => {
     },
   });
 };
+
+
+
+
 
 // Register service with Eureka
 const registerService = async () => {

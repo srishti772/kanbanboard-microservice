@@ -46,12 +46,16 @@ public class UserController {
         return new ResponseEntity<>(userService.getUser(nuid),HttpStatus.OK);
     }
 
+    @GetMapping("/verify/{email}")
+    public ResponseEntity<String> getUserByEmail(@PathVariable String email) {
+        return new ResponseEntity<>(userService.getUserByEmail(email).getNuid(),HttpStatus.OK);
+    }
+
      @GetMapping
     public ResponseEntity<List<UserData>> getUsers() {
         return new ResponseEntity<>(userService.getUsers(),HttpStatus.OK);
     }
   
-
     @PostMapping
     public ResponseEntity<UserData> createUser(@Valid @RequestBody User user) {
 
@@ -82,8 +86,7 @@ public class UserController {
 
     @GetMapping("/{userId}/tasks")
     public Mono<List<Task>> getTasksByUserId(@PathVariable String userId) {
-       return taskService.getTasksByUserId(userId);
-        
+       return taskService.getTasksByUserId(userId);        
     }
 
     

@@ -14,7 +14,7 @@ public class SecurityConstants {
 
      public static final String DELETE_USER_PATH = BASE_USER_PATH + "/{nuid}";
  
-    
+     public static final String AUTHORIZATION_PATH = BASE_USER_PATH + "/verify/{email}";
 
 
     public static final int TOKEN_EXPIRATION  = 7200000; // 7200 seconds (2 hours) * 1000 (ms)

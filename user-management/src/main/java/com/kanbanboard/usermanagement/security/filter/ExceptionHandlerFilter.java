@@ -20,11 +20,12 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter{
         try{
             filterChain.doFilter(request,response);
         }catch(UserNotFoundException ex){
-            response.setStatus( HttpServletResponse.SC_NOT_FOUND);
+            response.setStatus( HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write(ex.getMessage());   
             response.getWriter().flush();
             }
             catch(JWTVerificationException ex){
+                System.out.println("______****"+ex.getMessage());
                 response.setStatus( HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Invalid JWT");   
                 response.getWriter().flush();
