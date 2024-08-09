@@ -14,6 +14,8 @@ This project is a Kanban board application using a microservices architecture. T
   - Docker
   - REST API
   - Spring Cloud (including Eureka, Config Server, Gateway)
+  - Spring Security
+  - JWT Authentication
 - **Frontend:**
   - Angular
 
@@ -26,7 +28,8 @@ This project is a Kanban board application using a microservices architecture. T
   - API Gateway with Spring Cloud Gateway for routing and security.
 - **Security:**
   - JWT authentication and authorization.
-  - Middleware to verify JWT tokens.
+  - Middleware to verify JWT tokens (Node .js Microservice) to secure api endpoints.
+  - Spring Security to secure endpoints (Spring Boot Microservice)
 
 ## Setup and Configuration
 
