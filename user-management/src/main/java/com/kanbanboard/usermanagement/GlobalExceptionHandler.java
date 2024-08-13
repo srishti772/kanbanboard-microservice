@@ -8,11 +8,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.kanbanboard.usermanagement.exception.*;
 
 import java.lang.Exception;
@@ -49,10 +51,25 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<HttpStatus> handleBadCredentials(BadCredentialsException ex) {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(JWTVerificationException.class)
+public ResponseEntity<String> handleJWTVerificationException(JWTVerificationException ex) {
+    String errorMessage = "JWT verification failed.";
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(errorMessage);
+}
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+
 
     
     

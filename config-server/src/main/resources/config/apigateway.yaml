@@ -5,19 +5,27 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: task-management
-          uri: lb://taskmanagement
+        # Route for authentication paths without JWT filter
+        - id: auth-service
+          uri: lb://usermanagement
           predicates:
-            - Path=/task-management/**
-          filters:
-            - StripPrefix=1
+            - Path=/auth/**
 
+        # Route for paths that require authentication
         - id: user-management
           uri: lb://usermanagement
           predicates:
-            - Path=/user-management/**
+            - Path=/api/users/**
           filters:
-            - StripPrefix=1
+            - JWTAuthorizationFilter
+
+          # Route for paths that require authentication
+        - id: task-management
+          uri: lb://taskmanagement
+          predicates:
+            - Path=/api/tasks/**
+          filters:
+            - JWTAuthorizationFilter
 
 eureka:
   client:

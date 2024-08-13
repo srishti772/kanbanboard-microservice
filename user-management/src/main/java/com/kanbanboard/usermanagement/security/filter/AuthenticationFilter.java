@@ -1,15 +1,19 @@
 package com.kanbanboard.usermanagement.security.filter;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.kanbanboard.usermanagement.entity.User;
 import com.kanbanboard.usermanagement.security.SecurityConstants;
 import com.kanbanboard.usermanagement.security.manager.CustomAuthenticationManager;
+import com.kanbanboard.usermanagement.service.AuthService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +29,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     
 
     private CustomAuthenticationManager authenticationManager;
+    private AuthService authService;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -42,11 +47,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
-        String token = JWT.create()
-        .withSubject(authResult.getName())
-        .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_EXPIRATION))
-        .sign(Algorithm.HMAC512(SecurityConstants.SECRET_KEY));
+       
+                  List<String> roles = authResult.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList()
+            );
 
+        String token = authService.generateToken(authResult.getName(),roles);
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);
     }
 

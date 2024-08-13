@@ -53,15 +53,11 @@ public class UserController {
 
      @GetMapping
     public ResponseEntity<List<UserData>> getUsers() {
+        System.out.println("inside get all users**");
         return new ResponseEntity<>(userService.getUsers(),HttpStatus.OK);
     }
   
-    @PostMapping
-    public ResponseEntity<UserData> createUser(@Valid @RequestBody User user) {
-
-        return new ResponseEntity<>(userService.saveUser(user),HttpStatus.CREATED);
-    }
-
+   
     @PutMapping("/profile/{nuid}")
     public ResponseEntity<UserData> updateUser(@PathVariable String nuid, @Valid @RequestBody UpdateUserProfile user) {
         return new ResponseEntity<>(userService.updateUserProfile(nuid, user),HttpStatus.OK);

@@ -8,8 +8,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.http.HttpMethod;
 import com.kanbanboard.usermanagement.security.filter.AuthenticationFilter;
 import com.kanbanboard.usermanagement.security.filter.ExceptionHandlerFilter;
-import com.kanbanboard.usermanagement.security.filter.JWTAuthorizationFilter;
+import com.kanbanboard.usermanagement.security.filter.RBACFilter;
 import com.kanbanboard.usermanagement.security.manager.CustomAuthenticationManager;
+import com.kanbanboard.usermanagement.service.AuthService;
 import com.kanbanboard.usermanagement.service.UserService;
 
 import lombok.AllArgsConstructor;
@@ -20,14 +21,16 @@ public class SecurityConfig {
 
     private CustomAuthenticationManager authenticationManager;
     private UserService userService;
+    private AuthService authService;
 
     
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
        
      
-    AuthenticationFilter authFilter = new AuthenticationFilter(authenticationManager);
-    authFilter.setFilterProcessesUrl("/authenticate");  
+    AuthenticationFilter authFilter = new AuthenticationFilter(authenticationManager, authService);
+
+    authFilter.setFilterProcessesUrl("/auth/login");  
 
          http
          .headers().frameOptions().disable()
@@ -35,29 +38,13 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())        
         .authorizeHttpRequests(authorizeRequests -> authorizeRequests
             .requestMatchers("/h2/**").permitAll()
-            .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
-
-            .requestMatchers(HttpMethod.GET, SecurityConstants.GET_USER_PATH).hasAnyRole("USER", "ADMIN")
-            .requestMatchers(HttpMethod.GET, SecurityConstants.GET_TASKS).hasAnyRole("USER", "ADMIN")
-
-            .requestMatchers(HttpMethod.PUT, SecurityConstants.UPDATE_USER_PATH).hasRole("ADMIN")
-            .requestMatchers(HttpMethod.GET, SecurityConstants.GET_USERS_PATH).hasRole("ADMIN")
-            .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-            .requestMatchers(HttpMethod.GET, SecurityConstants.AUTHORIZATION_PATH).hasAnyRole("USER", "ADMIN")
-
-
-            
-            .requestMatchers(HttpMethod.PUT,SecurityConstants.UPDATE_USER_PROFILE_PATH).hasRole("USER")
-            .requestMatchers(HttpMethod.PUT,SecurityConstants.UPDATE_USER_PASSWORD_PATH).hasRole("USER")
-
+            .requestMatchers("/auth/login", "/auth/register", "/auth/validate").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
             .addFilter(authFilter))
-            .addFilterAfter(new JWTAuthorizationFilter(userService), AuthenticationFilter.class)
-
-            
-        .sessionManagement(sessionManagement -> 
+            .addFilterAfter(new RBACFilter(authService), AuthenticationFilter.class)        
+            .sessionManagement(sessionManagement -> 
             sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();

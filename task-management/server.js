@@ -9,7 +9,6 @@ const {
   getTracer,
   expressMiddleware,
 } = require("./config/tracing");
-const authMiddleware = require("./middleware/authMiddleware"); // Import the auth middleware
 
 const app = express();
 
@@ -41,7 +40,7 @@ const startServer = async () => {
     );
 
     // Routes
-    app.use("/api/tasks", authMiddleware, taskRoutes);
+    app.use("/api/tasks", taskRoutes);
 
     app.get("/status", (req, res, next) => {
       res
