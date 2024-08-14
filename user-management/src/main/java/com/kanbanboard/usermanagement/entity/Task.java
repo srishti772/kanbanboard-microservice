@@ -18,8 +18,8 @@ public class Task {
     private String status = "";
     private String priority = "";
     private String owner = "";
-    private LocalDateTime createdAt ;
-    private LocalDateTime updatedAt ;
+    private String createdAt = "";
+    private String updatedAt = "";
 
 
 

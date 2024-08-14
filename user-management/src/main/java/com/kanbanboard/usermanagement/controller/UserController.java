@@ -8,6 +8,7 @@ import com.kanbanboard.usermanagement.dto.UpdateUserProfile;
 import com.kanbanboard.usermanagement.dto.UserData;
 import com.kanbanboard.usermanagement.entity.User;
 import com.kanbanboard.usermanagement.exception.ServiceUnavailableException;
+import com.kanbanboard.usermanagement.exception.UserNotFoundException;
 import com.kanbanboard.usermanagement.service.UserService;
 import com.kanbanboard.usermanagement.service.UserServiceImpl;
 import com.kanbanboard.usermanagement.service.TaskService;
@@ -81,9 +82,11 @@ public class UserController {
             }
 
     @GetMapping("/{userId}/tasks")
-    public Mono<List<Task>> getTasksByUserId(@PathVariable String userId) {
-       return taskService.getTasksByUserId(userId);        
-    }
+    public ResponseEntity<List<Task>> getTasksByUserId(@PathVariable String userId) {
+        List<Task> tasks = taskService.getTasksByUserId(userId);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
 
+
+        }
     
 }

@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -63,6 +64,16 @@ public ResponseEntity<String> handleJWTVerificationException(JWTVerificationExce
             .status(HttpStatus.UNAUTHORIZED)
             .body(errorMessage);
 }
+
+
+    @ExceptionHandler(WebClientResponseException.class)
+    public ResponseEntity<String> handleWebClientResponseException(WebClientResponseException ex) {
+       System.out.println("inside webclient exception");
+        return ResponseEntity
+                .status(ex.getStatusCode())
+                .body(ex.getResponseBodyAsString());
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception ex) {
