@@ -43,12 +43,63 @@ const deleteTask = async (id) => {
   }
 };
 
-const getTasksByUserId = async (nuid) =>{
-  try{
-    return await TaskModel.find({owner: nuid});
+const getTasksByUserId = async (nuid) => {
+  try {
+    return await TaskModel.find({ owner: nuid });
   } catch (error) {
     throw new Error(error.message);
   }
-}
+};
 
-module.exports = { createTask, getAllTasks, getATask, updateTask, deleteTask, getTasksByUserId };
+
+// Add the endpoint
+const getTaskSummaryHandler = async () => {
+  try {
+    const tasks = await TaskModel.aggregate([
+      {
+        $group: {
+          _id: { status: "$status", priority: "$priority" },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id.status",
+          priorities: {
+            $push: {
+              priority: "$_id.priority",
+              count: "$count",
+            },
+          },
+        },
+      },
+    ]);
+    
+    const summary = tasks.reduce((acc, task) => {
+      if (!acc[task._id]) {
+        acc[task._id] = { High: 0, Medium: 0, Low: 0 };
+      }
+    
+      task.priorities.forEach(({ priority, count }) => {
+        acc[task._id][priority] = count;
+      });
+    
+      return acc;
+    }, {});
+
+    return summary;
+    }
+       catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+module.exports = {
+  createTask,
+  getAllTasks,
+  getATask,
+  updateTask,
+  deleteTask,
+  getTasksByUserId,
+  getTaskSummaryHandler,
+};
