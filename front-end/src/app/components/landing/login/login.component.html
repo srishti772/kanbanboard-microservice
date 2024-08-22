@@ -1,0 +1,63 @@
+<form [formGroup]="loginForm" class="login">
+  <h6>Login</h6>
+
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" placeholder="Enter your Email" />
+    <mat-error *ngIf="email.invalid && email.touched">
+      <span *ngIf="email.errors?.['required']">*Required.</span>
+      <span *ngIf="email.errors?.['pattern']"
+        >Only northeastern email id allowed.</span
+      >
+      <span *ngIf="email.errors?.['email']">Enter valid email.</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      type="password"
+      formControlName="password"
+      placeholder="Enter your Password"
+    />
+    <mat-error *ngIf="password.invalid && password.touched">
+      <span *ngIf="password.errors?.['required']">*Required.</span>
+      <span *ngIf="password.errors?.['minlength']"
+        >Please enter at least
+        {{password.errors?.['minlength']['requiredLength']}} characters.</span
+      >
+    </mat-error>
+  </mat-form-field>
+
+  <button
+    mat-button
+    extended
+    class="custom-fab"
+    (click)="onLogin($event)"
+    [disabled]="loginForm.invalid"
+    *ngIf="!loading"
+    >
+    Login
+  </button>
+
+  <div *ngIf="loading" class="loading-spinner">
+    <mat-spinner></mat-spinner> loading
+  </div>
+
+  <div class="signup-prompt">
+    <span>Not a member? </span>
+    <button mat-button class="custom-signup" (click)="redirectToSignup()">
+      Sign Up
+    </button>
+  </div>
+
+  <div *ngIf="loading" >
+   ....loading...
+  </div>
+
+  <div *ngIf="error?.showError" class="error-message">
+    {{ error?.message }}
+  </div>
+  
+</form>

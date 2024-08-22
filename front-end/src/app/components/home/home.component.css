@@ -1,0 +1,33 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 95%;
+}
+
+.menu{
+
+    flex: 0 1 auto;
+    
+
+}
+
+.item{
+}
+
+.board{
+width: 60%;
+}
+
+@media (max-width: 975px) {
+
+    .container{
+        flex-direction: column;
+        
+    }
+
+    .item{
+    width: 100%;
+    }
+
+}

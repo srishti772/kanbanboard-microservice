@@ -1,0 +1,117 @@
+
+<h5 mat-dialog-title class="create-task-heading">Create New Task</h5>
+<mat-dialog-content class="dialog-create">
+  
+
+  <form [formGroup]="taskForm" class="task-form">
+      <mat-form-field class="custom-inp">
+        <mat-label class="custom-label">Enter Title</mat-label>
+        <input
+          matInput
+          placeholder="Title"
+          [formControl]="title"
+          class="custom-inp"
+        />
+        <mat-error class="custom-error" *ngIf="title.errors?.['required']">
+          Title is mandatory
+        </mat-error>
+        <mat-error class="custom-error" *ngIf="title.errors?.['minlength']">
+          Title must be at least
+          {{title.errors?.['minlength']['requiredLength']}} characters long
+        </mat-error>
+        <mat-error class="custom-error" *ngIf="title.errors?.['maxlength']">
+          Title cannot be more than
+          {{title.errors?.['maxlength']['requiredLength']}} characters long
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Description Field -->
+      <mat-form-field class="custom-inp">
+        <mat-label class="custom-label">Enter Description</mat-label>
+        <textarea
+          matInput
+          placeholder="Description"
+          [formControl]="description"
+          class="custom-inp"
+        ></textarea>
+        <mat-error
+          class="custom-error"
+          *ngIf="description.errors?.['required']"
+        >
+          Description is mandatory
+        </mat-error>
+        <mat-error
+          class="custom-error"
+          *ngIf="description.errors?.['minlength']"
+        >
+          Description must be at least
+          {{ description.errors?.['minlength']['requiredLength'] }} characters
+          long
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Priority Field -->
+      <mat-form-field >
+        <mat-label class="custom-label">Select Priority</mat-label>
+        <mat-select [formControl]="priority"  class="custom-inp">
+          <mat-option value="High">High</mat-option>
+          <mat-option value="Medium">Medium</mat-option>
+          <mat-option value="Low">Low</mat-option>
+        </mat-select>
+        <mat-error class="custom-error" *ngIf="priority.errors?.['required']">
+          Priority is mandatory
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Owner Field -->
+      <mat-form-field >
+        <mat-label class="custom-label">Select Owner</mat-label>
+        <mat-select [formControl]="owner" class="custom-inp">
+          <mat-option value="128">User 128</mat-option>
+          <mat-option  value="129">User 129</mat-option>
+          <mat-option   value="130">User 130</mat-option>
+        </mat-select>
+        <mat-error class="custom-error" *ngIf="owner.errors?.['required']">
+          Owner is mandatory
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Due Date Field -->
+      <mat-form-field class="custom-inp">
+        <mat-label class="custom-label">Select Due Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          placeholder="Due Date"
+          [formControl]="dueDate"
+          class="custom-inp"
+
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error class="custom-error" *ngIf="dueDate.errors?.['required']">
+          Due Date is mandatory
+        </mat-error>
+      </mat-form-field>
+
+     
+
+
+     
+
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions  class="dialog-create">
+    <button mat-button  class="custom-fab" (click)="onNoClick()">Cancel</button>
+    <button
+    mat-button
+    extended
+    class="custom-fab"
+    (click)="onSubmit()"
+    [disabled]="taskForm.invalid"
+  >
+    <mat-icon>addcircle</mat-icon>
+    Create Task
+  </button>
+  </mat-dialog-actions>
+

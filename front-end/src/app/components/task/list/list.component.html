@@ -1,0 +1,31 @@
+<div class="container">
+  <button
+    mat-fab
+    extended
+    class="custom-fab"
+    (click)="toggleCreateDialogOpen()"
+  >
+    <mat-icon>addcircle</mat-icon>
+    Create Task
+  </button>
+
+ 
+
+<div class="createTask" *ngIf="createDialogOpen">
+  <div class="popup">
+    <div class="heading">
+      <p>Create Task </p>
+
+
+      <button mat-fab class="custom-close" (click)="toggleCreateDialogOpen()">
+        <mat-icon>close</mat-icon>
+      </button>
+
+
+    </div>
+   
+
+    <app-create-task></app-create-task>
+  </div>
+</div>
+

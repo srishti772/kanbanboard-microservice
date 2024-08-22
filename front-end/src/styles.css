@@ -1,0 +1,142 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-secondary-bg: #dee2ff;
+  --color-primary-bg: hsl(240, 100%, 98%);
+  --color-primary-bg-dark: hsl(264, 100%, 87%);
+  --color-text-primary: #3c3c3c;
+  --color-text-secondary: #8d99ae;
+  --color-border: rgb(95, 0, 192);
+  --color-border-light: rgb(190, 124, 255);
+  --color-border-hover: rgba(95, 0, 192, 0.2);
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background-color: var(--color-main-bg);
+  color: var(--color-text-primary);
+}
+
+.body,
+.mdc-list-item__primary-text,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.mat-body-large,
+.mat-typography .mat-body-large,
+.mat-typography {
+  font-family: "Poppins", "Helvetica Neue", sans-serif !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled),
+.mdc-text-field__input {
+  background-color: transparent !important;
+  border: 0.1rem solid var(--color-border-light);
+  border-radius: 0.7rem;
+  color: var(--color-text-primary) !important;
+}
+
+.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item-f-disabled):not(
+    .mat-mdc-option-multiple
+  ) {
+  color: var(--color-border) !important;
+}
+
+/* General styles for select options */
+.mat-mdc-option {
+  background-color: var(
+    --color-primary-bg
+  ) !important; /* Default background color for options */
+  color: var(
+    --color-text-primary
+  ) !important; /* Default text color for options */
+}
+
+/* Hover effect for options */
+.mat-mdc-option:hover {
+  border: 0rem solid var(--color-border);
+  border-radius: 0.7rem;
+  background-color: var(
+    --color-border-hover
+  ) !important; /* Background color on hover */
+  color: var(--color-primary-bg) !important; /* Text color on hover */
+}
+
+/* Panel styling for dropdown */
+.mat-mdc-select-panel {
+  background-color: var(
+    --color-primary-bg
+  ) !important; /* Background color of the panel */
+  color: var(--color-text-primary) !important; /* Text color in the panel */
+}
+.mat-mdc-fab[disabled],
+.mat-mdc-fab.mat-mdc-button-disabled {
+  background-color: lightgray !important;
+  color: darkgray !important;
+}
+
+/* Style the scrollbar track (background) */
+::-webkit-scrollbar {
+  width: 0.3rem; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(
+    --color-border-light
+  ); /* Color of the scrollbar thumb */
+  border-radius: 1rem; /* Rounded corners */
+}
+
+/* Style the scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(
+    --color-border
+  ); /* Color of the scrollbar thumb on hover */
+}
+
+/* Style the scrollbar track (background) */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Color of the scrollbar track */
+  border-radius: 1rem; /* Rounded corners */
+}
+
+.mat-mdc-dialog-surface {
+  background-color: white !important;
+}
+
+.mdc-list-item__primary-text {
+  color: black !important;
+}
+
+.sidebar .mdc-list-item__primary-text {
+  display: flex;
+  align-items: flex-end !important;
+  gap: 1rem;
+  color: white !important;
+}
+
+.mdc-text-field,
+.mdc-floating-label {
+  color: var(--color-border) !important;
+  opacity: 1;
+}
+
+.mat-mdc-form-field-error {
+  color: red;
+}
+
+.custom-signup {
+  color: var(--color-border) !important;
+  transition: width 0.3s ease, padding 0.3s ease;
+}
+
+.custom-signup:hover {
+  text-decoration: underline;
+  background-color: transparent !important;
+}

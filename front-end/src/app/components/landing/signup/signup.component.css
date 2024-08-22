@@ -1,0 +1,35 @@
+.signup{
+    display:flex;
+    background-color: var(--color-primary-bg);
+    padding:2.5rem;
+    border-radius: 1.3rem;
+    flex-direction: column;
+    width: 100%;
+}
+
+.custom-fab{
+    background-color:var(--color-border-light) ;
+    color: var(--color-text-primary) !important;
+    border: 0.2rem solid var(--color-border-light) ;
+    transition: width 0.3s ease, padding 0.3s ease; 
+
+}
+
+.custom-fab:hover{
+    border: 0.2rem solid var(--color-border) ;
+    background-color: var(--color-border) !important;
+    color: white !important;
+    transition: width 0.3s ease, padding 0.3s ease; 
+   
+}
+
+.custom-fab:disabled {
+    background-color: #c0c0c0; /* Disabled background color */
+    color: #6c757d; /* Disabled text color */
+    cursor: not-allowed;
+    transition: width 0.3s ease, padding 0.3s ease; 
+    border: 0.2rem solid  #c0c0c0;
+
+  }
+
+  

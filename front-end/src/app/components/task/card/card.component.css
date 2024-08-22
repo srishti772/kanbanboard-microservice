@@ -1,0 +1,131 @@
+mat-card {
+  padding: 0.0.3rem;
+  width: auto !important;
+  min-width: 15rem;
+  margin-right: 0.4rem;  
+
+}
+
+.default-background {
+  background-color: white;
+}
+
+.variant-background {
+  background-color: var(--color-primary-bg); /* Apply the CSS variable */
+}
+
+.task-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: small;
+  font-style: italic;
+}
+
+mat-icon {
+  margin-right: 2px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+
+
+.row .text {
+  font-size: smaller;
+}
+
+.col {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.border {
+  border-top: 1px solid var(--color-secondary-bg);
+}
+
+.right {
+  justify-content: flex-end;
+  column-gap:0.5rem;
+  padding: 0%;
+}
+
+.left {
+  justify-content: flex-start;
+  column-gap: 0;
+  padding: 0%;
+  column-gap:0.5rem;
+
+}
+
+.icon-btn {
+  width: fit-content;
+  background-color: transparent;
+  border: none;
+}
+
+.priority-box {
+  display: flex;
+  align-items: baseline;
+  border-radius: 4px;
+  padding: 0rem 0.2rem 0rem 0.2rem;
+  font-size: small;
+  font-weight: bolder;
+}
+
+.heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+  font-size: medium;
+  font-weight: bolder;
+}
+
+.priority-high {
+  background-color: #f44336;
+}
+
+.priority-medium {
+  background-color: #ff9800;
+}
+
+.priority-low {
+  background-color: #4caf50;
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px; /* Space above progress bars */
+}
+
+.progress-bar {
+  width: 20px; /* Width of each bar */
+  height: 10px; /* Height of each bar */
+  border-radius: 5px; /* Rounded edges */
+  margin-right: 5px; /* Space between bars */
+}
+
+.progress-draft {
+  background-color: #ffeb3b; /* Yellow for Draft */
+}
+
+.progress-in-progress {
+  background-color: #2196f3; /* Blue for In Progress */
+}
+
+.progress-completed {
+  background-color: #4caf50; /* Green for Completed */
+}
+
+.icon {
+  color: var(--color-border);
+  font-size: 1.3rem;
+}

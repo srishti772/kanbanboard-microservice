@@ -1,0 +1,70 @@
+<div class="kanban-board">
+  <div
+    class="kanban-column"
+    cdkDropList
+    #draftList="cdkDropList"
+    [cdkDropListData]="draftTasks"
+    [cdkDropListConnectedTo]="[inProgressList, completedList]"
+    id="Draft"
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    <h5>Draft</h5>
+    <div class="task-container">
+      <ng-container *ngFor="let task of tasks">
+        <app-task-card
+          *ngIf="task.status === 'Draft'"
+          cdkDrag
+          [cdkDragData]="task"
+          [task]="task"
+          [variant]="'primary'"
+        ></app-task-card>
+      </ng-container>
+    </div>
+  </div>
+
+  <div
+    class="kanban-column"
+    cdkDropList
+    #inProgressList="cdkDropList"
+    [cdkDropListData]="inProgressTasks"
+    [cdkDropListConnectedTo]="[draftList, completedList]"
+    id="In Progress"
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    <h5>In Progress</h5>
+    <div class="task-container">
+      <ng-container *ngFor="let task of tasks">
+        <app-task-card
+          *ngIf="task.status === 'In Progress'"
+          cdkDrag
+          [cdkDragData]="task"
+          [task]="task"
+          [variant]="'primary'"
+        ></app-task-card>
+      </ng-container>
+    </div>
+  </div>
+
+  <div
+    class="kanban-column"
+    cdkDropList
+    #completedList="cdkDropList"
+    [cdkDropListData]="completedTasks"
+    [cdkDropListConnectedTo]="[draftList, inProgressList]"
+    id="Completed"
+    (cdkDropListDropped)="onDrop($event)"
+  >
+    <h5>Completed</h5>
+    <div class="task-container">
+      <ng-container *ngFor="let task of tasks">
+        <app-task-card
+          *ngIf="task.status === 'Completed'"
+          cdkDrag
+          [cdkDragData]="task"
+          [task]="task"
+          [variant]="'primary'"
+        ></app-task-card>
+      </ng-container>
+    </div>
+  </div>
+</div>

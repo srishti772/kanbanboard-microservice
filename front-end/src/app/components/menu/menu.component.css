@@ -1,0 +1,40 @@
+.sidebar {
+  background-color: var(--color-border);
+  color: white !important;
+  padding: 1rem;
+  height: 100%;
+  width: 13rem;
+  transition: width 0.3s ease, padding 0.3s ease; /* Smooth transition for width and padding */
+  overflow: hidden; 
+}
+
+.sidebar.collapsed {
+  width: 4rem; /* Fixed width for collapsed state */
+}
+
+.link {
+  color: white;
+}
+
+.project-name {
+  margin-left: 0.5rem;
+  font-size: larger;
+}
+
+.collapse-btn {
+  margin-left: 0.5rem;
+}
+
+  
+/* Media query for screens 975px or narrower */
+@media (max-width: 975px) {
+    .sidebar {
+      width: 100%;
+        height: fit-content
+      }
+
+      .sidebar.collapsed {
+        width: 100%;
+      }
+  }
+  

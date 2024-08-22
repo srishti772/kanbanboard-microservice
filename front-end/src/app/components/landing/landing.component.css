@@ -1,0 +1,18 @@
+.landing{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    background: linear-gradient(
+        to bottom right, /* Direction of the gradient */
+        rgb(95, 0, 192), /* Darker color */
+        rgb(190, 124, 255), /* Lighter color */
+        rgb(245, 205, 228), /* Additional color (e.g., a pink shade) */
+        rgb(201, 232, 244)  /* Additional color (e.g., a teal shade) */
+      );
+      /* Optional: Set the size and position of the background */
+      background-size: cover;
+      background-position: center;
+}

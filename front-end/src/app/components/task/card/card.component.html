@@ -1,0 +1,50 @@
+<mat-card  [ngClass]="getCardClass()">
+  <mat-card-header class="col" (click)="toggleCollapse()">
+    <mat-card-title class="heading"
+      >{{ task.title }}
+
+      <div class="progress-container">
+        <div
+          *ngFor="let bar of getProgressBars(task.status)"
+          class="progress-bar"
+          [ngClass]="bar.class"
+        ></div>
+      </div>
+    </mat-card-title>
+
+    <div class="priority-box" [ngClass]="getPriorityClass(task.priority)">
+      {{ task.priority }}
+    </div>
+  </mat-card-header>
+  <mat-card-content *ngIf="!isCollapsed">
+    <div class="task-info">
+      {{ task.description }}
+    </div>
+  </mat-card-content>
+
+  <mat-card-footer class="col border" *ngIf="!isCollapsed">
+    <div class="col left">
+      <div class="row">
+        <mat-icon class="icon">account_circle</mat-icon>
+        <span class="text">{{ task.owner }}</span>
+      </div>
+      <div class="row">
+        <mat-icon class="icon">calendar_month</mat-icon>
+        <span class="text">{{ task.dueDate | date : "MMM dd" }}</span>
+      </div>
+    </div>
+
+    <div class="col right" *ngIf="!isCollapsed">
+      <div class="row">
+        <button class="icon-btn">
+          <mat-icon class="icon">edit</mat-icon>
+        </button>
+      </div>
+      <div class="row">
+        <button class="icon-btn" (click)="deleteTask(task)">
+          <mat-icon class="icon">delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card-footer>
+</mat-card>

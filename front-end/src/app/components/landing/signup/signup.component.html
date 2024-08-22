@@ -1,0 +1,83 @@
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="signup">
+    <h6>Sign Up</h6>
+    <mat-form-field appearance="fill">
+      <mat-label>NUID</mat-label>
+      <input matInput formControlName="nuid" placeholder="Enter your NUID" />
+      <mat-error   *ngIf="nuid.invalid && nuid.touched">
+        <span *ngIf="nuid.errors?.['required']">*Required.</span>
+        <span *ngIf="nuid.errors?.['maxlength']">Should be 10 characters long.</span>
+        <span *ngIf="nuid.errors?.['minlength']">Should be 10 characters long.</span>
+
+
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName" placeholder="Enter your First Name" />
+      <mat-error   *ngIf="firstName.invalid  && firstName.touched">
+        <span *ngIf="firstName.errors?.['required']">*Required.</span>
+        <span *ngIf="firstName.errors?.['pattern']">Only Letters & spaces are allowed.</span>
+        <span *ngIf="firstName.errors?.['maxlength']">No more than {{firstName.errors?.['maxlength']['requiredLength']}} characters are allowed.</span>
+        
+
+      </mat-error>
+
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName" placeholder="Enter your Last Name" />
+      <mat-error  *ngIf="lastName.invalid  && lastName.touched">
+        <span *ngIf="lastName.errors?.['required']">*Required.</span>       
+        <span *ngIf="lastName.errors?.['pattern']">Only Letters & spaces are allowed.</span>
+        <span *ngIf="lastName.errors?.['maxlength']">No more than {{lastName.errors?.['maxlength']['requiredLength']}} characters are allowed.</span>
+
+
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="Enter your Email" />
+      <mat-error *ngIf="email.invalid  && email.touched">
+        <span *ngIf="email.errors?.['required']">*Required.</span>
+
+        <span *ngIf="email.errors?.['pattern']">Only northeastern email id allowed.</span>
+        <span *ngIf="email.errors?.['email']">Enter valid email.</span>
+
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" placeholder="Enter your Password" />
+      <mat-error  *ngIf="password.invalid  && password.touched">
+       
+       
+        <span  *ngIf="password.errors?.['required']">*Required.</span>
+        <span *ngIf="password.errors?.['minlength']">Please enter atleast {{password.errors?.['minlength']['requiredLength']}} characters.</span>
+
+      </mat-error>
+    </mat-form-field>
+  
+    <button
+    mat-button
+    extended
+    class="custom-fab"
+    (click)="onSubmit()"
+    [disabled]="signupForm.invalid"
+  >
+    Sign Up
+  </button>
+
+  <div class="login-prompt">
+    <span>Already a member? </span>
+    <button mat-button class="custom-signup" (click)="redirectToLogin()">Login</button>
+  </div>
+
+  <div *ngIf="error?.showError" class="error-message">
+    {{ error?.message }}
+  </div>
+  </form>
+  
