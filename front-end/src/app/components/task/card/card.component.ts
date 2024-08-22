@@ -4,6 +4,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../../../services/task.service';
+import { IUser } from '../../../interface/user.interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-task-card',
@@ -20,7 +22,12 @@ export class CardComponent implements OnInit {
 
   constructor(private taskService: TaskService) {}
 
-  ngOnInit(): void {}
+    ngOnInit(): void {
+    }
+  
+   
+  
+  
 
   deleteTask(task: ITask): void {
     this.taskService.deleteTask(this.task).subscribe((res) => {
@@ -66,4 +73,8 @@ export class CardComponent implements OnInit {
     return this.variant === 'default' ? 'default-background' : 'variant-background';
   }
 
+  getOwnerName(): string | undefined {
+    const ownerParts = this.task.owner?.split(' - ') || [];
+     return ownerParts.length > 1 ? ownerParts[1] : this.task.owner;
+  }
 }

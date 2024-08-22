@@ -1,4 +1,4 @@
-<mat-card  [ngClass]="getCardClass()">
+<mat-card [ngClass]="getCardClass()">
   <mat-card-header class="col" (click)="toggleCollapse()">
     <mat-card-title class="heading"
       >{{ task.title }}
@@ -26,7 +26,9 @@
     <div class="col left">
       <div class="row">
         <mat-icon class="icon">account_circle</mat-icon>
-        <span class="text">{{ task.owner }}</span>
+        <span class="text">
+         {{ getOwnerName() }}</span
+        >
       </div>
       <div class="row">
         <mat-icon class="icon">calendar_month</mat-icon>
@@ -34,17 +36,19 @@
       </div>
     </div>
 
-    <div class="col right" *ngIf="!isCollapsed">
-      <div class="row">
-        <button class="icon-btn">
-          <mat-icon class="icon">edit</mat-icon>
-        </button>
-      </div>
-      <div class="row">
-        <button class="icon-btn" (click)="deleteTask(task)">
-          <mat-icon class="icon">delete</mat-icon>
-        </button>
-      </div>
-    </div>
+   
   </mat-card-footer>
+
+  <div class="col right" *ngIf="!isCollapsed">
+    <div class="row">
+      <button class="icon-btn">
+        <mat-icon class="icon">edit</mat-icon>
+      </button>
+    </div>
+    <div class="row">
+      <button class="icon-btn" (click)="deleteTask(task)">
+        <mat-icon class="icon">delete</mat-icon>
+      </button>
+    </div>
+  </div>
 </mat-card>

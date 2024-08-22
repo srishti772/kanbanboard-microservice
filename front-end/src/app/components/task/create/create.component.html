@@ -67,9 +67,9 @@
       <mat-form-field >
         <mat-label class="custom-label">Select Owner</mat-label>
         <mat-select [formControl]="owner" class="custom-inp">
-          <mat-option value="128">User 128</mat-option>
-          <mat-option  value="129">User 129</mat-option>
-          <mat-option   value="130">User 130</mat-option>
+          <mat-option *ngFor="let user of users" [value]="user.nuid">
+            {{ user.nuid }} - {{ user.firstName }} {{ user.lastName }} <!-- Assuming user has `id` and `name` properties -->
+          </mat-option>
         </mat-select>
         <mat-error class="custom-error" *ngIf="owner.errors?.['required']">
           Owner is mandatory

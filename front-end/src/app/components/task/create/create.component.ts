@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../../../services/task.service';
+import { UserService } from '../../../services/user.service';
 import { ITask } from '../../../interface/task.interface';
 import {
   MatDialogRef,
@@ -30,6 +31,7 @@ import {
   MatDialogContent,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { IUser } from '../../../interface/user.interface';
 
 @Component({
   selector: 'app-create-task',
@@ -93,11 +95,15 @@ export class CreateComponent implements OnInit {
     dueDate: this.dueDate,
     status: this.status,
   });
+  users: IUser[] = [];
+
 
   ngOnInit() {
-  
+    this.userService.users$.subscribe(users => {
+      this.users = users; 
+    });
   }
-  constructor(private taskService: TaskService){};
+  constructor(private taskService: TaskService, private userService: UserService){};
   private convertToDate(dateValue: any): Date | undefined {
     if (!dateValue) {
       return  new Date(""); 
@@ -113,15 +119,21 @@ export class CreateComponent implements OnInit {
  
   onSubmit(): void {
     if (this.taskForm.valid) {
+      const selectedNuid = this.taskForm.value.owner;
+      const selectedUser = this.users.find(user => user.nuid === selectedNuid);
+
       // Map form values to ITask
       const newTask: ITask = {
         title: this.taskForm.value.title ?? '',
         description: this.taskForm.value.description ?? '', // Use empty string if undefined
         priority: this.taskForm.value.priority as 'High' | 'Medium' | 'Low',
-        owner: this.taskForm.value.owner ?? '', // Use empty string if undefined
+        owner: `${selectedUser?.nuid} - ${selectedUser?.firstName} ${selectedUser?.lastName}` ,       
         dueDate: this.convertToDate(this.taskForm.value.dueDate),
         status:this.taskForm.value.status as 'Draft' | 'In Progress' | 'Completed',
+
+      
       };
+      console.log(newTask);
 
       this.taskService.createTask(newTask).subscribe((res) => {
         console.log('Task created successfully:', res);

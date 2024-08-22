@@ -2,13 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { IUser } from '../interface/user.interface';
 import { Observable, BehaviorSubject, of, throwError } from 'rxjs';
-import { tap, catchError, switchMap, map } from 'rxjs/operators';
-
-interface AuthError {
-  status: number;
-  message: string;
-  showError: boolean;
-}
+import { catchError, switchMap } from 'rxjs/operators';
+import { IError } from '../interface/error.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +16,30 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  private handleResponse(res: HttpResponse<IUser>): Observable<IUser> {
+    if (res.status === 200 || res.status === 201) {
+      const authResult = res.body as IUser;
+      const authToken = res.headers.get('Authorization');
+
+      if (authToken) {
+        localStorage.setItem('id_token', authToken);
+      }
+      this.userSubject.next(authResult); // Update userSubject with user data
+      return of(authResult);
+    } else {
+      return this.handleError(res.status, res.body);
+    }
+  }
+
+  private handleError(status: number, body: any): Observable<never> {
+    const error: IError = {
+      status,
+      message: body || 'Unknown error',
+      showError: true,
+    };
+    return throwError(() => error);
+  }
+
   login(email: string, password: string): Observable<IUser> {
     return this.http
       .post<IUser>(
@@ -29,47 +48,12 @@ export class AuthService {
         { observe: 'response' }
       )
       .pipe(
-        switchMap((res: HttpResponse<IUser>) => {
-          // Check if response status is 200 OK
-          if (res.status === 200) {
-            const authResult = res.body as IUser;
-            console.log("AUTH RES",authResult);
-  
-            const authToken = res.headers.get('Authorization');
-
-            console.log('TOKEN**', authToken, res);
-            if (authToken) {
-              localStorage.setItem('id_token', authToken);
-            }
-            this.userSubject.next(authResult); // Update userSubject with user data
-            console.log("fife",this.user$);
-
-            return of(res.body as IUser);
-          } else {
-            const error: AuthError = {
-              status: res.status,
-              message: `${
-                res.body || 'Unknown error'
-              }`,
-              showError: true,
-            };
-            return throwError(() => error);
-          }
-        }),
-        catchError((error) => {
-          // Handle errors from the API
-
-          const authError: AuthError = {
-            status: error.status || 500,
-            message: error.error || 'An unknown error occurred',
-            showError: true,
-          };
-          return throwError(() => authError);
-        })
+        switchMap((res: HttpResponse<IUser>) => this.handleResponse(res)),
+        catchError((error) => this.handleError(error.status, error.error))
       );
   }
 
-  logout() {
+  logout(): void {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     this.userSubject.next(null);
@@ -77,36 +61,10 @@ export class AuthService {
 
   signup(user: IUser): Observable<IUser> {
     return this.http
-    .post<IUser>(
-      `${this.apiUrl}/register`,
-      user,
-      { observe: 'response' }
-    ).pipe(switchMap((res: HttpResponse<IUser>) => {
-      // Check if response status is 200 OK
-      if (res.status === 201) {
-        const authResult = res.body as IUser;
-         return of(res.body as IUser);
-      } else {
-        const error: AuthError = {
-          status: res.status,
-          message: `${
-            res.body || 'Unknown error'
-          }`,
-          showError: true,
-        };
-        return throwError(() => error);
-      }
-    }),
-    catchError((error) => {
-      // Handle errors from the API
-
-      const authError: AuthError = {
-        status: error.status || 500,
-        message: error.error || 'An unknown error occurred',
-        showError: true,
-      };
-      return throwError(() => authError);
-    })
-  );
+      .post<IUser>(`${this.apiUrl}/register`, user, { observe: 'response' })
+      .pipe(
+        switchMap((res: HttpResponse<IUser>) => this.handleResponse(res)),
+        catchError((error) => this.handleError(error.status, error.error))
+      );
   }
 }
