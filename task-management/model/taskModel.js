@@ -31,9 +31,14 @@ const taskSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    createdAt: {
+    dueDate: {
       type: Date,
-      default: Date.now,
+      default: () => {
+        const date = new Date();
+        date.setDate(date.getDate() + 2);
+        return date;
+      },
+      required: [true, "Due date is required"],
     },
   },
   {

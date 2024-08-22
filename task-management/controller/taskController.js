@@ -35,7 +35,7 @@ const createTask = async (req, res, next) => {
 const getAllTasks = async (req, res, next) => {
   try {
     const tasks = await TaskService.getAllTasks();
-    res.status(200).json({ data: tasks });
+    res.status(200).json(tasks);
   } catch (error) {
     next(error); // Forward error to error-handling middleware
   }
@@ -45,7 +45,7 @@ const getATask = async (req, res, next) => {
   try {
     const { id } = req.params;
     const task = await findTaskOrThrow(id);
-    res.status(200).json({ data: task });
+    res.status(200).json(task);
   } catch (error) {
     next(error); // Forward error to error-handling middleware
   }
@@ -67,7 +67,7 @@ const updateTask = async (req, res, next) => {
     await findTaskOrThrow(id); // Validate ID and ensure the task exists
 
     const task = await TaskService.updateTask(id, req.body);
-    res.status(200).json({ data: task });
+    res.status(200).json(task);
   } catch (error) {
     next(error); // Forward error to error-handling middleware
   }

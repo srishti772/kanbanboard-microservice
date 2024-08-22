@@ -1,5 +1,6 @@
 package com.kanbanboard.usermanagement.security.filter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.kanbanboard.usermanagement.dto.UserData;
 import com.kanbanboard.usermanagement.entity.User;
 import com.kanbanboard.usermanagement.security.SecurityConstants;
 import com.kanbanboard.usermanagement.security.manager.CustomAuthenticationManager;
@@ -53,8 +55,16 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter{
             .collect(Collectors.toList()
             );
 
-        String token = authService.generateToken(authResult.getName(),roles);
+       UserData userData = (UserData) authResult.getPrincipal(); // Cast to UserData
+
+        String token = authService.generateToken(userData.getEmail(),roles);
         response.addHeader(SecurityConstants.AUTHORIZATION, SecurityConstants.BEARER + token);
+
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.print(new ObjectMapper().writeValueAsString(authResult.getName()));
+        out.flush(); 
+
     }
 
 

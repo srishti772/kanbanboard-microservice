@@ -14,7 +14,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kanbanboard.usermanagement.dto.UserData;
 import com.kanbanboard.usermanagement.entity.User;
 import com.kanbanboard.usermanagement.service.UserService;
 
@@ -24,6 +25,8 @@ import lombok.AllArgsConstructor;
 @Component
 public class CustomAuthenticationManager implements AuthenticationManager{
 private UserService userService;
+private final ObjectMapper objectMapper;
+
 private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -38,8 +41,10 @@ private BCryptPasswordEncoder bCryptPasswordEncoder;
         .map(SimpleGrantedAuthority::new)
        .collect(Collectors.toList());
        }
+       UserData userData = objectMapper.convertValue(user, UserData.class);
 
-       return new UsernamePasswordAuthenticationToken(user.getEmail(), null, authorities);
+
+       return new UsernamePasswordAuthenticationToken(userData, null, authorities);
 
     
 

@@ -1,5 +1,4 @@
 # Ignore the 'frontend' directory
-frontend/
 
 **/node_modules/
 node_modules/
