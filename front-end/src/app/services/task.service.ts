@@ -48,4 +48,9 @@ export class TaskService {
       tap(() => this.loadTasks())
     );
   }
+
+  getTaskSummary(): Observable<any> {
+    const summaryUrl = `${this.apiUrl}/summary`;
+    return this.http.get<any>(summaryUrl);
+  }
 }
