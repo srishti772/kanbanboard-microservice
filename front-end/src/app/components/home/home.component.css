@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    height: 95%;
+    height: 99%;
+    overflow-x: hidden;
 }
 
 .menu{
@@ -12,11 +13,25 @@
 
 }
 
-.item{
+
+.info{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-end;
+
+
 }
 
 .board{
-width: 60%;
+    flex: 1 1 auto;
+
+}
+
+.charts{
+    height: 100%;
+    flex: 1 1 auto;
+
 }
 
 @media (max-width: 975px) {

@@ -20,41 +20,17 @@ export class PriorityChartComponent implements OnInit, OnDestroy {
   private tasksSubscription: Subscription = new Subscription();
 
 
-  title = 'ng2-charts-demo';
+  title = 'Bar Chart';
 
-  // Doughnut
-  public doughnutChartLabels: string[] = ['High', 'Medium', 'Low'];
-  public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
-    { data: [350, 450, 100], label: 'Tasks' },
-  ];
-
-  public doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
-    responsive: false,
-  };
-
-  public pieChartOptions: ChartOptions<'pie'> = {
-    responsive: false,
-  };
-  public pieChartLabels = [
-    ['Download', 'Sales'],
-    ['In', 'Store', 'Sales'],
-    'Mail Sales',
-  ];
-  public pieChartDatasets = [
-    {
-      data: [300, 500, 100],
-    },
-  ];
-  public pieChartLegend = true;
-  public pieChartPlugins = [];
+ 
 
   public barChartLegend = true;
   // Bar Chart Labels
-  public barChartLabels: string[] = ['Draft', 'In Progress', 'Completed'];
+  public taskChartLabels: string[] = ['Draft', 'In Progress', 'Completed'];
 
   // Bar Chart Data
   public barChartData: ChartConfiguration<'bar'>['data'] = {
-    labels: this.barChartLabels,
+    labels: this.taskChartLabels,
     datasets: [
       {
         data: [], // Will be populated dynamically
@@ -75,7 +51,7 @@ export class PriorityChartComponent implements OnInit, OnDestroy {
   };
 
   // Bar Chart Options
-  public barChartOptions: ChartOptions<'bar'> = {
+  public taskChartOptions: ChartOptions<'bar'> = {
     responsive: true,
     scales: {
       x: {
@@ -87,7 +63,7 @@ export class PriorityChartComponent implements OnInit, OnDestroy {
     },
     plugins: {
       legend: {
-        display: true,
+        display: false, //
       },
       tooltip: {
         callbacks: {
@@ -140,7 +116,7 @@ export class PriorityChartComponent implements OnInit, OnDestroy {
 
     // Populate counts based on taskSummary
     for (const [status, priorities] of Object.entries(this.taskSummary)) {
-      const statusIndex = this.barChartLabels.indexOf(status);
+      const statusIndex = this.taskChartLabels.indexOf(status);
 
       if (statusIndex !== -1) {
         highPriorityCounts[statusIndex] = priorities.High || 0;

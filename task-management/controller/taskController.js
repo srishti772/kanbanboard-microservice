@@ -82,10 +82,19 @@ const getUserTasks = async (req, res, next) => {
   }
 };
 
-const getSummary = async (req, res, next) => {
+const getTaskSummary = async (req, res, next) => {
   try {
     const tasksSummary = await TaskService.getTaskSummaryHandler();
     res.status(200).json(tasksSummary);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getUserSummary = async (req, res, next) => {
+  try {
+    const userSummary = await TaskService.getUserSummary();
+    res.status(200).json(userSummary);
   } catch (error) {
     next(error);
   }
@@ -98,5 +107,6 @@ module.exports = {
   updateTask,
   deleteTask,
   getUserTasks,
-  getSummary,
+  getTaskSummary,
+  getUserSummary,
 };

@@ -94,6 +94,63 @@ const getTaskSummaryHandler = async () => {
   }
 };
 
+const getUserSummary = async() => {
+ try{
+  const tasks = await TaskModel.aggregate([
+    {
+      $group: {
+        _id: { owner: "$owner", status: "$status", priority: "$priority" },
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $group: {
+        _id: { owner: "$_id.owner", status: "$_id.status" },
+        priorities: {
+          $push: {
+            k: "$_id.priority",
+            v: "$count"
+          }
+        }
+      }
+    },
+    {
+      $group: {
+        _id: "$_id.owner",
+        status: {
+          $push: {
+            k: "$_id.status",
+            v: {
+              $arrayToObject: "$priorities"
+            }
+          }
+        }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        owner: "$_id",
+        status: {
+          $arrayToObject: "$status"
+        }
+      }
+    }
+  ]);
+
+  // Format the output
+  const summary = {};
+  tasks.forEach(task => {
+    summary[task.owner] = task.status;
+  });
+
+  return summary;
+ }
+ catch (error) {
+  throw new Error(error.message);
+}
+}
+
 module.exports = {
   createTask,
   getAllTasks,
@@ -102,4 +159,5 @@ module.exports = {
   deleteTask,
   getTasksByUserId,
   getTaskSummaryHandler,
+  getUserSummary,
 };

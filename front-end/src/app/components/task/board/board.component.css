@@ -14,7 +14,7 @@
 .kanban-column {
   width: 48%;
   border: 3px solid var(--color-primary-bg);
-  max-height:40rem ;
+  max-height:23rem ;
   gap: 1rem 1rem;
   display: flex;
   

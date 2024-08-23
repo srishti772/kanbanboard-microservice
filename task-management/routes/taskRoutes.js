@@ -8,7 +8,8 @@ router.get("/", TaskController.getAllTasks);
 
 router.post("/", TaskController.createTask);
 
-router.get("/summary", TaskController.getSummary);
+router.get("/summary", TaskController.getTaskSummary);
+router.get("/usersummary", TaskController.getUserSummary);
 
 router.get("/:id", TaskController.getATask);
 router.get("/user/:nuid", TaskController.getUserTasks);

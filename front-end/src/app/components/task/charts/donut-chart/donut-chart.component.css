@@ -1,5 +1,11 @@
-.summaryTasks{
+.donut{
     background-color: var(--color-primary-bg);
     padding: 1rem;
     border-radius: 1.5rem;
+    display: flex;
+    justify-content: center;
+    height:13rem;
+   
+
+    
 }

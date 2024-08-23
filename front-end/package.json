@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
     "chart.js": "^4.4.4",
+    "chartjs-plugin-annotation": "^3.0.1",
     "frontend": "file:",
     "ng2-charts": "^6.0.1",
     "rxjs": "~7.8.0",

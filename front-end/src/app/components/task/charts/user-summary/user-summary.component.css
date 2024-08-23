@@ -1,5 +1,9 @@
 .summaryTasks{
     background-color: var(--color-primary-bg);
     padding: 1rem;
+    padding-right: 3rem;
+    padding-left: 0rem;
     border-radius: 1.5rem;
+    display: flex;
+    justify-content: center;
 }

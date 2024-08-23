@@ -53,4 +53,11 @@ export class TaskService {
     const summaryUrl = `${this.apiUrl}/summary`;
     return this.http.get<any>(summaryUrl);
   }
+
+  getUserSummary(): Observable<any> {
+    const summaryUrl = `${this.apiUrl}/usersummary`;
+    return this.http.get<any>(summaryUrl);
+  }
 }
+
+

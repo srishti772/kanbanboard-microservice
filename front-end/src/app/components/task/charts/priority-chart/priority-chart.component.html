@@ -1,19 +1,11 @@
 
-
+<div class="summaryTasks">
 <canvas baseChart
 [data]="barChartData"
-[labels]="barChartLabels"
-[options]="barChartOptions"
+[labels]="taskChartLabels"
+[options]="taskChartOptions"
 [legend]="true"
         [type]="'bar'">
 </canvas>
-
-
-<canvas baseChart
-        [labels]="doughnutChartLabels"
-        [datasets]="doughnutChartDatasets"
-        [options]="doughnutChartOptions"
-        [legend]="true"
-        [type]="'doughnut'">
-</canvas>
+</div>
 
