@@ -1,13 +1,9 @@
 .charts{
     display:flex;
     padding: 2rem;
-    flex-direction: row;
+    flex-direction: column;
     gap: 0.7rem;
-align-items: flex-end;
+align-items: flex-start;
 justify-content: space-between;
 width: 100%;
-}
-
-.priorityCharts{
-    width: 33%;
 }

@@ -4,6 +4,7 @@
     flex-wrap: nowrap;
     height: 99%;
     overflow-x: hidden;
+    overflow: hidden;
 }
 
 .menu{
@@ -17,15 +18,15 @@
 .info{
     width: 80%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-content: flex-end;
 
 
 }
 
 .board{
-    flex: 1 1 auto;
-
+    flex: 0 0 auto;
+    width: 70%;
 }
 
 .charts{

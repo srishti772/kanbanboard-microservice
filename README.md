@@ -27,76 +27,66 @@ This project is a Kanban board application using a microservices architecture. T
   - Centralized configuration with Spring Cloud Config Server.
   - API Gateway with Spring Cloud Gateway for routing and security.
 - **Security:**
-  - JWT authentication and authorization.
-  - Middleware to verify JWT tokens (Node .js Microservice) to secure api endpoints.
-  - Spring Security to secure endpoints (Spring Boot Microservice)
+  - Centralised JWT authentication and authorization.
+  - Spring Security to secure API endpoints.
 
 ## Setup and Configuration
 
 ### Spring Boot Microservices
 
-1. **User Management:**
-   - `User Management Service` utilizes `WebClient` to fetch tasks from the Node.js microservice, handling exceptions and service unavailability.
-     `Features`
-     - Spring Security and RBAC for API endpoints security.
-     - JWT Authentication and Authorization.
-     - `WebClientConfig` class defines the `WebClient` bean used for service communication.
-     - Configured `WebClient` to make internal requests with a specific header to avoid circular authentication.
+# Kanban Board Microservice
 
-### Node.js Microservice
+## Overview
 
-1. **JWT Middleware:**
-   - Middleware to authenticate JWT tokens from incoming requests.
-   - Handles token validation and verification against a user service endpoint.
-   - Includes logic to bypass authentication for internal requests.
+This project is a Kanban board application built with a microservices architecture. It uses Spring Boot, Node.js, and various backend technologies to manage tasks, users, and handle authentication.
 
-## Known Issues
+## Microservices Overview
 
-- **Circular Authentication Issue:**
-  - A loop issue arises when the Spring Boot app makes requests to the Node.js microservice, which also performs authentication. To resolve this, add a custom header to indicate internal requests.
+### 1. **API Gateway**
 
-## Implementation Details
+- Acts as the single entry point for clients.
+- Routes requests to appropriate services.
+- Implements security and JWT token verification.
 
-- **Service Registration:**
+### 2. **Config Server**
 
-  - Both services (Spring Boot and Node.js) are registered with Eureka for service discovery and load balancing.
+- Manages configuration settings for all microservices.
+- Centralizes configurations for easier maintenance.
 
-- **Custom Header for Internal Requests:**
+### 3. **Service Registry (Eureka)**
 
-  - Add an `X-Internal-Request: true` header to requests from the Spring Boot app to Node.js microservice to bypass authentication.
+- Handles service discovery and load balancing.
+- Allows microservices to dynamically register and locate each other.
 
-- **Error Handling:**
-  - Handled exceptions and errors gracefully in the `WebClient` and JWT middleware, ensuring robust error reporting and service availability checks.
+### 4. **Task Management Service**
 
-## Running the Project
+- Manages task-related operations.
+- Stores task data and supports CRUD operations for tasks.
 
-1. **Spring Boot Application:**
+### 5. **User Management Service**
 
-   - Ensure that `application.properties` is configured correctly for Eureka, Config Server, and other necessary settings.
+- Handles user-related functionality like registration, login, and authentication.
+- Implements JWT-based security for managing user sessions.
 
-2. **Node.js Microservice:**
+### 6. **Frontend**
 
-   - Ensure that the microservice is running and accessible for the Spring Boot app to make requests.
+- Angular-based UI for interacting with the Kanban board.
+- Provides a clean interface for users to manage tasks.
 
-3. **Docker:**
-   - Use Docker to containerize the services for easier deployment and management.
+## Tech Stack
 
-## Future Improvements
+- **Backend**: Spring Boot, Node.js, MongoDB, Hibernate, Spring Cloud
+- **Frontend**: Angular
+- **Security**: JWT, Spring Security
+- **Deployment**: Docker
 
-- **Enhanced Security:**
+## Setup
 
-  - Explore advanced security measures to further protect endpoints and data.
-
-- **Performance Optimization:**
-
-  - Analyze and optimize the performance of microservices and communication.
-
-- **Additional Features:**
-  - Consider adding new features to the Kanban board based on user feedback and requirements.
+1. Clone the repository.
+2. Run each microservice as Docker containers.
+3. Ensure the configuration server and Eureka registry are up before launching other services.
 
 ## Contact
 
-For any questions or further information, please contact:
-
-- **Name:** Srishti Ahirwar
+- **Author**: Srishti Ahirwar
 - **Phone:** (857) 829-0238

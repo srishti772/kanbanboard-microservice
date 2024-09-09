@@ -18,7 +18,7 @@ export class CardComponent implements OnInit {
   @Input() task: ITask = {} as ITask;
   @Input() variant: string = "default";
 
-  isCollapsed: boolean = true;
+  isCollapsed: boolean = false;
 
   constructor(private taskService: TaskService) {}
 
