@@ -4,6 +4,41 @@
 
 This project is a Kanban board application using a microservices architecture. The application consists of a Spring Boot app, a Node.js microservice, and utilizes various technologies and tools to manage tasks and user authentication efficiently.
 
+graph TD;
+    subgraph Frontend
+        Angular
+    end
+
+    subgraph API_Gateway
+        Gateway
+    end
+
+    subgraph Microservices
+        TaskService[Task Service (Node.js)]
+        UserService[User Management Service (Spring Boot)]
+        NotificationService[Notification Service]
+    end
+
+    subgraph Infra
+        MongoDB
+        Eureka
+        ConfigServer[Config Server]
+    end
+
+    Angular --> Gateway
+    Gateway --> TaskService
+    Gateway --> UserService
+    Gateway --> NotificationService
+    TaskService --> MongoDB
+    UserService --> MongoDB
+    Eureka --> TaskService
+    Eureka --> UserService
+    Eureka --> NotificationService
+    ConfigServer --> TaskService
+    ConfigServer --> UserService
+    ConfigServer --> NotificationService
+
+
 ## Tech Stack
 
 - **Backend:**
