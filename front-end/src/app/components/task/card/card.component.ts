@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ITask } from '../../../interface/task.interface';
 import { MatIcon } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { TaskService } from '../../../services/task.service';
 import { IUser } from '../../../interface/user.interface';
 import { Observable } from 'rxjs';
+import { CreateComponent } from '../create/create.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-task-card',
@@ -17,6 +19,7 @@ import { Observable } from 'rxjs';
 export class CardComponent implements OnInit {
   @Input() task: ITask = {} as ITask;
   @Input() variant: string = "default";
+  readonly dialog = inject(MatDialog);
 
   isCollapsed: boolean = false;
 
@@ -76,5 +79,14 @@ export class CardComponent implements OnInit {
   getOwnerName(): string | undefined {
     const ownerParts = this.task.owner?.split(' - ') || [];
      return ownerParts.length > 1 ? ownerParts[1] : this.task.owner;
+  }
+
+  openEditTaskDialog(task: ITask): void {
+    this.dialog.open(CreateComponent, {
+      width: '500px',
+      data: {
+        task: task,
+        isEditing: true
+      }    });
   }
 }

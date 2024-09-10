@@ -1,8 +1,20 @@
 const TaskModel = require("../model/taskModel");
+const { publishToExchange } = require("../rabbitMQ/publisher");
 
-const createTask = async (task) => {
+const createTask = async (data) => {
   try {
-    return await TaskModel.create(task);
+    const taskNew = await TaskModel.create(data.task);
+    const taskDetails = {
+      action:'created',
+      task: taskNew,
+      owner: data.owner,
+    };
+    publishToExchange(
+      "task_exchange",
+      "created",
+      JSON.stringify(taskDetails)
+    );
+    return taskNew;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -24,14 +36,39 @@ const getATask = async (id) => {
   }
 };
 
-const updateTask = async (id, task) => {
+const updateTask = async (id, data) => {
   try {
-    return await TaskModel.findByIdAndUpdate(id, task, {
-      new: true,
-      runValidators: true,
-    });
+    let updatedTask;
+    let taskDetails;
+
+    if (data.task) {
+      updatedTask = await TaskModel.findByIdAndUpdate(id, data.task, {
+        new: true,
+        runValidators: true,
+      });
+
+      taskDetails = {
+        action:'updated',
+        task: updatedTask,
+        owner: data.owner,
+      };
+
+      publishToExchange(
+        "task_exchange",
+        "updated",
+        JSON.stringify(taskDetails)
+      );
+    } else {
+      updatedTask = await TaskModel.findByIdAndUpdate(id, data, {
+        new: true,
+        runValidators: true,
+      });
+    }
+
+    return updatedTask;
   } catch (error) {
-    throw new Error(error.message);
+    // Directly rethrow the caught error
+    throw error;
   }
 };
 
@@ -50,7 +87,6 @@ const getTasksByUserId = async (nuid) => {
     throw new Error(error.message);
   }
 };
-
 
 // Add the endpoint
 const getTaskSummaryHandler = async () => {
@@ -74,82 +110,80 @@ const getTaskSummaryHandler = async () => {
         },
       },
     ]);
-    
+
     const summary = tasks.reduce((acc, task) => {
       if (!acc[task._id]) {
         acc[task._id] = { High: 0, Medium: 0, Low: 0 };
       }
-    
+
       task.priorities.forEach(({ priority, count }) => {
         acc[task._id][priority] = count;
       });
-    
+
       return acc;
     }, {});
 
     return summary;
-    }
-       catch (error) {
+  } catch (error) {
     throw new Error(error.message);
   }
 };
 
-const getUserSummary = async() => {
- try{
-  const tasks = await TaskModel.aggregate([
-    {
-      $group: {
-        _id: { owner: "$owner", status: "$status", priority: "$priority" },
-        count: { $sum: 1 }
-      }
-    },
-    {
-      $group: {
-        _id: { owner: "$_id.owner", status: "$_id.status" },
-        priorities: {
-          $push: {
-            k: "$_id.priority",
-            v: "$count"
-          }
-        }
-      }
-    },
-    {
-      $group: {
-        _id: "$_id.owner",
-        status: {
-          $push: {
-            k: "$_id.status",
-            v: {
-              $arrayToObject: "$priorities"
-            }
-          }
-        }
-      }
-    },
-    {
-      $project: {
-        _id: 0,
-        owner: "$_id",
-        status: {
-          $arrayToObject: "$status"
-        }
-      }
-    }
-  ]);
+const getUserSummary = async () => {
+  try {
+    const tasks = await TaskModel.aggregate([
+      {
+        $group: {
+          _id: { owner: "$owner", status: "$status", priority: "$priority" },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $group: {
+          _id: { owner: "$_id.owner", status: "$_id.status" },
+          priorities: {
+            $push: {
+              k: "$_id.priority",
+              v: "$count",
+            },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id.owner",
+          status: {
+            $push: {
+              k: "$_id.status",
+              v: {
+                $arrayToObject: "$priorities",
+              },
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          owner: "$_id",
+          status: {
+            $arrayToObject: "$status",
+          },
+        },
+      },
+    ]);
 
-  // Format the output
-  const summary = {};
-  tasks.forEach(task => {
-    summary[task.owner] = task.status;
-  });
+    // Format the output
+    const summary = {};
+    tasks.forEach((task) => {
+      summary[task.owner] = task.status;
+    });
 
-  return summary;
- }
- catch (error) {
-  throw new Error(error.message);
-}
-}
+    return summary;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 
 module.exports = {
   createTask,

@@ -1,0 +1,34 @@
+server:
+  port: 8020
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761//eureka/
+  instance:
+    hostname: localhost
+    ipAddr: 127.0.0.1
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+spring:
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    exchange: task_exchange
+    queue: task_queue
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: kanbanboardbysrishti@gmail.com
+    password: qwrwiorregkqiwbl
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
 import { CreateComponent } from '../task/create/create.component';
+import { ITask } from '../../interface/task.interface';
 
 
 @Component({
@@ -28,7 +29,10 @@ export class MenuComponent {
   openCreateTaskDialog(): void {
     this.dialog.open(CreateComponent, {
       width: '500px',
-      data: {} 
+      data: {
+        task: {} as ITask,
+        isEditing: false
+      }
     });
   }
 }

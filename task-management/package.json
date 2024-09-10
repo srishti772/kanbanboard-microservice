@@ -10,6 +10,7 @@
   "author": "Srishti Ahirwar",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.10.4",
     "axios": "^1.7.3",
     "cls-hooked": "^4.2.2",
     "dotenv": "^16.4.5",

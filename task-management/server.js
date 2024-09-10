@@ -4,6 +4,7 @@ const { connectDB } = require("./config/db");
 const errorHandler = require("./utils/errorHandler");
 const loadConfig = require("./config/configLoader");
 const registerService = require("./config/eurekaClient");
+const {setupRabbitMQ} = require('./rabbitMQ/initializer');
 const {
   initializeTracer,
   getTracer,
@@ -39,6 +40,9 @@ const startServer = async () => {
       expressMiddleware({ tracer, serviceName: process.env.EUREKA_APPNAME })
     );
 
+    //create rabbitMQqueues
+    setupRabbitMQ();
+    
     // Routes
     app.use("/api/tasks", taskRoutes);
 

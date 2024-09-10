@@ -49,9 +49,8 @@ export class BoardComponent implements OnInit {
 
     if (targetColumnId != sourceColumnId) {
       // Save updated task status to the server
-      this.taskService.updateTask(task).subscribe((response) => {
-        console.log('resss**', response);
-
+      this.taskService.updateTaskStatus(task).subscribe((response) => {
+        console.log('status updated', response);
       });
     }
   }

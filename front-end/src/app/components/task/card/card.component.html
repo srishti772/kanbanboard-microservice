@@ -41,7 +41,7 @@
 
   <div class="col right" *ngIf="!isCollapsed">
     <div class="row">
-      <button class="icon-btn">
+      <button class="icon-btn" (click) = "openEditTaskDialog(task)">
         <mat-icon class="icon">edit</mat-icon>
       </button>
     </div>

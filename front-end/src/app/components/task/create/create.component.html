@@ -68,7 +68,7 @@
         <mat-label class="custom-label">Select Owner</mat-label>
         <mat-select [formControl]="owner" class="custom-inp">
           <mat-option *ngFor="let user of users" [value]="user.nuid">
-            {{ user.nuid }} - {{ user.firstName }} {{ user.lastName }} <!-- Assuming user has `id` and `name` properties -->
+            {{ user.nuid }} - {{ user.firstName }} {{ user.lastName }}
           </mat-option>
         </mat-select>
         <mat-error class="custom-error" *ngIf="owner.errors?.['required']">
@@ -109,9 +109,21 @@
     class="custom-fab"
     (click)="onSubmit()"
     [disabled]="taskForm.invalid"
+    *ngIf="!isEditing"
   >
     <mat-icon>addcircle</mat-icon>
     Create Task
   </button>
+
+  <button
+  mat-button
+  extended
+  class="custom-fab"
+  [disabled]="taskForm.invalid"
+  (click)="onSubmit()"
+  *ngIf="isEditing"
+>
+  Update Task
+</button>
   </mat-dialog-actions>
 
