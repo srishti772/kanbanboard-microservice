@@ -2,6 +2,7 @@
 .DS_Store
 **/.env
 **/.env.config
+**/.gitignore
 
 **/node_modules/
 node_modules/
