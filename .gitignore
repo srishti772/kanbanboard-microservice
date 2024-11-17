@@ -1,4 +1,7 @@
 
+.DS_Store
+**/.env
+**/.env.config
 
 **/node_modules/
 node_modules/

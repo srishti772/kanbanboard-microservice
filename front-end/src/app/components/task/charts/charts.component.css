@@ -7,3 +7,27 @@ align-items: flex-start;
 justify-content: space-between;
 width: 100%;
 }
+
+.chart-row{
+    display: flex; 
+    flex-direction: row; 
+    gap: 20px;
+}
+
+.chart-col{
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px;
+}
+
+
+
+@media (max-width: 975px) {
+   
+
+      .chart-row{
+        flex-direction: column; 
+    }
+    
+  }
+  

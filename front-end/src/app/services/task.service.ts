@@ -4,12 +4,13 @@ import { ITask } from '../interface/task.interface';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { IEntity } from '../interface/entity.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:8060/api/tasks';
+  private apiUrl = `${environment.apiUrl}/api/tasks`;
   private tasksSubject = new BehaviorSubject<ITask[]>([]);
   tasks$ = this.tasksSubject.asObservable();
 

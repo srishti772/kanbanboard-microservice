@@ -1,0 +1,62 @@
+<div class="profile-container">
+    <h2>Edit Details</h2>
+    
+    <form [formGroup]="profileForm" class="profile-form" (ngSubmit)="onSubmit()">
+    
+       <div class="group-fields">
+      <!-- ID Field (Read-only) -->
+      <mat-form-field>
+        <mat-label>ID</mat-label>
+        <input matInput placeholder="ID" formControlName="id" readonly />
+      </mat-form-field>
+      
+  
+      <!-- NUID Field (Read-only) -->
+      <mat-form-field>
+        <mat-label>NUID</mat-label>
+        <input matInput placeholder="NUID" formControlName="nuid" readonly />
+      </mat-form-field>
+</div>  
+      <!-- Email Field (Read-only) -->
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" readonly />
+      </mat-form-field>
+      <br>        
+  
+      <!-- Pencil Icon to Toggle Editability -->
+      <mat-icon matSuffix (click)="toggleEditability()">edit</mat-icon> <!-- Single Pencil Icon -->
+      <br>          
+  
+      <!-- First Name Field -->
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput placeholder="First Name" formControlName="firstName" />
+        <mat-error *ngIf="profileForm.get('firstName')?.hasError('required')">
+          First name is required.
+        </mat-error>
+      </mat-form-field>
+      <br>          
+  
+      <!-- Last Name Field -->
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput placeholder="Last Name" formControlName="lastName" />
+        <mat-error *ngIf="profileForm.get('lastName')?.hasError('required')">
+          Last name is required.
+        </mat-error>
+      </mat-form-field>
+      <br>          
+  
+      <!-- Submit Button -->
+      <button mat-raised-button color="primary" type="submit" [disabled]="profileForm.invalid">Save</button>
+    </form>
+  </div>
+    <!-- Success or Error Message -->
+    <div *ngIf="successMessage" class="success-message">
+        {{ successMessage }}
+      </div>
+  
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>

@@ -2,6 +2,7 @@ package com.kanbanboard.usermanagement.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.kanbanboard.usermanagement.dto.UserData;
 
 import com.kanbanboard.usermanagement.dto.UpdateUserPassword;
 import com.kanbanboard.usermanagement.dto.UpdateUserProfile;
@@ -13,7 +14,9 @@ import com.kanbanboard.usermanagement.service.UserService;
 import com.kanbanboard.usermanagement.service.UserServiceImpl;
 import com.kanbanboard.usermanagement.service.TaskService;
 import com.kanbanboard.usermanagement.entity.Task;
+import com.kanbanboard.usermanagement.service.AuthService;
 
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -41,6 +44,7 @@ public class UserController {
 
     public UserService userService;
     public TaskService taskService;
+    public AuthService authService;
 
     @GetMapping("/{nuid}")
     public ResponseEntity<UserData> getUser(@PathVariable String nuid) {
@@ -58,15 +62,22 @@ public class UserController {
         return new ResponseEntity<>(userService.getUsers(),HttpStatus.OK);
     }
   
+    @GetMapping("/self")
+    public ResponseEntity<UserData>  getUserSelf(@RequestHeader("Authorization") String token) {
+        UserData currUser = authService.validateToken(token);
+        return new ResponseEntity<>(userService.getUser(currUser.getNuid()),HttpStatus.OK);
+    }
    
-    @PutMapping("/profile/{nuid}")
-    public ResponseEntity<UserData> updateUser(@PathVariable String nuid, @Valid @RequestBody UpdateUserProfile user) {
-        return new ResponseEntity<>(userService.updateUserProfile(nuid, user),HttpStatus.OK);
+    @PutMapping("/self/profile")
+    public ResponseEntity<UserData> updateUser(@Valid @RequestBody UpdateUserProfile user, @RequestHeader("Authorization") String token) {
+        UserData currUser = authService.validateToken(token);
+        return new ResponseEntity<>(userService.updateUserProfile(currUser.getNuid(), user),HttpStatus.OK);
     }
     
-    @PutMapping("/password/{nuid}")
-    public ResponseEntity<UserData> updateUserPassword(@PathVariable String nuid, @Valid @RequestBody UpdateUserPassword user) {
-        return new ResponseEntity<>(userService.updateUserPassword(nuid, user),HttpStatus.OK);
+    @PutMapping("/self/password")
+    public ResponseEntity<UserData> updateUserPassword(@Valid @RequestBody UpdateUserPassword user, @RequestHeader("Authorization") String token) {
+        UserData currUser = authService.validateToken(token);
+        return new ResponseEntity<>(userService.updateUserPassword(currUser.getNuid(), user),HttpStatus.OK);
     }
     @PutMapping("/{nuid}")
     public ResponseEntity<UserData> updateUser(@PathVariable String nuid, @Valid @RequestBody User user) {

@@ -31,8 +31,16 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761//eureka/
-
+  instance:
+    appname: api-gateway
+    instance-id: api-gateway
 management:
   tracing:
     sampling:
       probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: info,health
+  health:
+    show-details: always

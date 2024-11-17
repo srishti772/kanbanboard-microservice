@@ -4,6 +4,7 @@ import { IUser } from '../interface/user.interface';
 import { Observable, BehaviorSubject, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { IError } from '../interface/error.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class AuthService {
   private userSubject = new BehaviorSubject<IUser | null>(null);
   user$ = this.userSubject.asObservable();
 
-  private apiUrl = 'http://localhost:8060/auth';
+  private apiUrl = `${environment.apiUrl}/auth`;
 
   constructor(private http: HttpClient) {}
 

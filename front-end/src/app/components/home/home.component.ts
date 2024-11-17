@@ -10,6 +10,8 @@ import { AuthService } from '../../services/auth.service';  // Adjust the path i
 import { Observable } from 'rxjs';
 import { IUser } from '../../interface/user.interface';
 import { CommonModule } from '@angular/common';
+import { CreateComponent } from '../task/create/create.component';
+
 
 @Component({
   selector: 'app-home',
@@ -23,10 +25,11 @@ import { CommonModule } from '@angular/common';
     ChartsComponent,
     RouterModule,
     CommonModule,
+    CreateComponent,
     RouterOutlet,
   ],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],  // Corrected typo from "styleUrl" to "styleUrls"
+  styleUrls: ['./home.component.css'],  
 })
 export class HomeComponent implements OnInit {
   user$: Observable<IUser | null>;

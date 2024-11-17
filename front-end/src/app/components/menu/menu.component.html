@@ -2,19 +2,25 @@
     <button type="menu" (click)="collapse()" class="collapse-btn">
       <mat-icon>menu</mat-icon>
     </button>
-  
+
     <b *ngIf="!collapseMenu" class="project-name">kanban board</b>
   
     <mat-list>
-      <mat-list-item class="link" matListItemTitle>
+      <mat-list-item class="link" matListItemTitle  [routerLink]="['/home/board']">
         <mat-icon>home</mat-icon>
         <span *ngIf="!collapseMenu">Home</span>
+        
       </mat-list-item>
       <mat-list-item class="link" matListItemTitle  (click)="openCreateTaskDialog()">
         <mat-icon>add</mat-icon>
         <span *ngIf="!collapseMenu">Create Task</span>
       </mat-list-item>
-      <mat-list-item class="link" matListItemTitle>
+      
+      <mat-list-item class="link" matListItemTitle  [routerLink]="['/home/charts']">
+        <mat-icon>bar_chart</mat-icon>
+        <span *ngIf="!collapseMenu">Charts</span>
+      </mat-list-item>
+      <mat-list-item class="link" matListItemTitle [routerLink]="['/home/profile']">
         <mat-icon>person</mat-icon>
         <span *ngIf="!collapseMenu">Profile</span>
       </mat-list-item>

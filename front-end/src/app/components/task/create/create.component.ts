@@ -22,6 +22,7 @@ import { CommonModule } from '@angular/common';
 import { TaskService } from '../../../services/task.service';
 import { UserService } from '../../../services/user.service';
 import { ITask } from '../../../interface/task.interface';
+import { futureDateValidator } from '../../../validators/custom-validators';  
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -56,7 +57,10 @@ import { IEntity } from '../../../interface/entity.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css'],
+
+
 })
+
 export class CreateComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<CreateComponent>);
   readonly data = inject<{ task: ITask, isEditing: boolean }>(MAT_DIALOG_DATA);
@@ -87,6 +91,8 @@ export class CreateComponent implements OnInit {
 
   readonly dueDate = new FormControl(this.data.task.dueDate || '',[
     Validators.required,
+    futureDateValidator(),
+
   ]);
 
   readonly status = new FormControl(this.data.task.status  || 'Draft', [

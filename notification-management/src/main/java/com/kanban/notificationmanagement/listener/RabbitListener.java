@@ -17,10 +17,10 @@ public class RabbitListener {
     @org.springframework.amqp.rabbit.annotation.RabbitListener(queues = "task_notification")
     public void receiveMessage(Message message) {
         System.out.println("Received message: " + message);
-        // Add your processing logic here
-         // Prepare email content
-        // Extract details from the message
-        Owner owner = message.getOwner();
+       
+        
+        try {
+             Owner owner = message.getOwner();
         Task task = message.getTask();
         String action = message.getAction();
         
@@ -36,7 +36,7 @@ public class RabbitListener {
         String body = String.format(
             "Hi %s %s,\n\n" +
             "%s\n\n" +
-            "Task Name: %s (%s)\n" +
+            "Task Name: %s \n" +
             "Status: %s\n" +
             "Priority: %s\n" +
             "Description: %s\n\n" +
@@ -45,7 +45,7 @@ public class RabbitListener {
             "Kanban Board Team",
             owner.getFirstName(), owner.getLastName(),
             content,
-            task.getTitle(), task.getId(),
+            task.getTitle(),
             task.getStatus(), task.getPriority(),
             task.getDescription()
         );
@@ -55,8 +55,6 @@ public class RabbitListener {
         mailMessage.setSubject(subject);
         mailMessage.setText(body);
 
-        
-        try {
             mailSender.send(mailMessage);
             System.out.println("Email sent to: " + recipientEmail);
         } catch (Exception e) {

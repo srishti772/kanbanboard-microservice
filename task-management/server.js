@@ -5,6 +5,8 @@ const errorHandler = require("./utils/errorHandler");
 const loadConfig = require("./config/configLoader");
 const registerService = require("./config/eurekaClient");
 const {setupRabbitMQ} = require('./rabbitMQ/initializer');
+const mongoose = require("mongoose"); 
+
 const {
   initializeTracer,
   getTracer,
@@ -46,10 +48,19 @@ const startServer = async () => {
     // Routes
     app.use("/api/tasks", taskRoutes);
 
-    app.get("/status", (req, res, next) => {
-      res
-        .status(200)
-        .json({ message: "Connected to task-management microservice" });
+    app.get("/health", (req, res, next) => {
+
+      try {
+        if (mongoose.connection.readyState !== 1) {
+          throw new Error("MongoDB connection is not established");
+        }
+
+        res.status(200).json({ status: "Up" });
+      } catch (error) {
+        console.error("Health check failed:", error);
+        res.status(503).json({ status: "Service Unavailable", error: error.message });
+      }
+      
     });
 
     // Error handling

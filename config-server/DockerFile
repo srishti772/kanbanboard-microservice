@@ -1,0 +1,26 @@
+# Use an official Maven image with JDK
+FROM maven:3.8.6-openjdk-17-slim AS build
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the entire project into the container's working directory
+COPY . /app
+
+# Run Maven to build the application (this will compile and package the application)
+RUN mvn clean install -DskipTests
+
+# Now use an openjdk image for running the application
+FROM openjdk:17-jdk-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the application build artifacts (compiled classes, configuration, etc.)
+COPY --from=build /app /app
+
+# Expose the port that the application will run on
+EXPOSE 8088
+
+# Set the command to run the application using Maven
+CMD ["mvn", "spring-boot:run"]

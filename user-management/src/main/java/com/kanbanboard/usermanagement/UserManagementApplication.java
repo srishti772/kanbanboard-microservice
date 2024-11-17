@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @SpringBootApplication
 @EnableDiscoveryClient
 @AllArgsConstructor
-public class UserManagementApplication implements CommandLineRunner {
+public class UserManagementApplication  {
 
 	UserRepository userRepository;
 	public static void main(String[] args) {
@@ -34,6 +34,7 @@ public class UserManagementApplication implements CommandLineRunner {
 		
 	}
 
+/** 
 	@Override
 	public void run(String... args) throws Exception {
 		User adminUser = new User();
@@ -46,5 +47,5 @@ public class UserManagementApplication implements CommandLineRunner {
 
 		userRepository.save(adminUser);	
 	}
-
+**/
 }

@@ -3,3 +3,9 @@ spring:
     name: apigateway
   config:
     import: "optional:configserver:http://localhost:8088"
+
+info:
+  app:
+    name: API Gateway
+    description: Gateway for microservices application
+    version: 1.0.0

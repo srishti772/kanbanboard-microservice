@@ -10,7 +10,7 @@ rabbitmq:
 # Eureka instance configuration
 eureka:
   appName: taskmanagement
-  instanceId: taskmanagement-instance-1
+  instanceId: task-management
   hostName: localhost
   ipAddr: 127.0.0.1
   vipAddress: taskmanagement

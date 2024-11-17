@@ -50,6 +50,27 @@
         </mat-error>
       </mat-form-field>
 
+         <!-- Due Date Field -->
+         <mat-form-field class="custom-inp">
+          <mat-label class="custom-label">Select Due Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            placeholder="Due Date"
+            [formControl]="dueDate"
+            class="custom-inp"
+  
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error class="custom-error" *ngIf="dueDate.errors?.['required']">
+            Due Date is mandatory
+          </mat-error>
+          <mat-error class="custom-error" *ngIf="dueDate.errors?.['futureDate']">
+            Past date is not allowed
+          </mat-error>
+        </mat-form-field>
+
       <!-- Priority Field -->
       <mat-form-field >
         <mat-label class="custom-label">Select Priority</mat-label>
@@ -76,23 +97,7 @@
         </mat-error>
       </mat-form-field>
 
-      <!-- Due Date Field -->
-      <mat-form-field class="custom-inp">
-        <mat-label class="custom-label">Select Due Date</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          placeholder="Due Date"
-          [formControl]="dueDate"
-          class="custom-inp"
-
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-error class="custom-error" *ngIf="dueDate.errors?.['required']">
-          Due Date is mandatory
-        </mat-error>
-      </mat-form-field>
+   
 
      
 

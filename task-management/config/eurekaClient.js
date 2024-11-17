@@ -23,7 +23,7 @@ const createEurekaClient = () => {
       },
       vipAddress: process.env.EUREKA_VIPADDRESS || "1",
       secureVipAddress: process.env.EUREKA_SECUREVIPADDRESS,
-      statusPageUrl: `http://${process.env.EUREKA_HOSTNAME}:${process.env.SERVER_PORT}/status`,
+      statusPageUrl: `http://${process.env.EUREKA_HOSTNAME}:${process.env.SERVER_PORT}/health`,
       healthCheckUrl: `http://${process.env.EUREKA_HOSTNAME}:${process.env.SERVER_PORT}/health`,
       homePageUrl: `http://${process.env.EUREKA_HOSTNAME}:${process.env.SERVER_PORT}`,
       dataCenterInfo: {

@@ -6,13 +6,21 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761//eureka/
   instance:
-    hostname: localhost
-    ipAddr: 127.0.0.1
+    appname: notification-management
+    instance-id: notification-management
+
 
 management:
   tracing:
     sampling:
       probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  health:
+    rabbit:
+      enabled: true
 
 spring:
   rabbitmq:

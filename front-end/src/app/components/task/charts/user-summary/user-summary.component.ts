@@ -23,7 +23,7 @@ export class UserSummaryComponent implements OnInit, OnDestroy {
     labels: [], // User names will be set here
     datasets: [], // Data will be set here
   };
-
+ 
   public barChartOptions: ChartOptions<'bar'> = {
     responsive: true,
     indexAxis: 'y',
@@ -31,7 +31,10 @@ export class UserSummaryComponent implements OnInit, OnDestroy {
     scales: {
       x: {
         stacked: true,
-      
+        min:0,
+        ticks: {
+          stepSize: 1.0,
+        },
       },
       y: {
         stacked: true,
@@ -119,8 +122,8 @@ export class UserSummaryComponent implements OnInit, OnDestroy {
         ctx.restore();
       },
     };
-
     Chart.register(stackLabelsPlugin);
+
   }
 
   private loadChartData(): void {
@@ -128,6 +131,8 @@ export class UserSummaryComponent implements OnInit, OnDestroy {
       this.taskService.getUserSummary().subscribe(data => {
         const transformedData = this.transformData(data);
         this.barChartData = transformedData;
+        this.incrementSuggestedMax();
+
       })
     );
   }
@@ -182,4 +187,15 @@ export class UserSummaryComponent implements OnInit, OnDestroy {
         return '#000000';
     }
   }
+  private incrementSuggestedMax(): void {
+    let suggestedMax = this.barChartOptions.scales?.['x']?.suggestedMax;
+  
+    if (typeof suggestedMax !== 'number') {
+      suggestedMax = 0;
+    }
+  
+    this.barChartOptions.scales!['x']!.suggestedMax = (suggestedMax as number) + 3;
+  }
+  
 }
+
