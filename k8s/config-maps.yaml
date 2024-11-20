@@ -12,3 +12,4 @@ data:
   task_management_url: "http://task-management-svc"
   user_management_url:  "http://user-management-svc"
   task_management: "task-management-svc"
+  notification_management_url: "http://notification-management-svc"

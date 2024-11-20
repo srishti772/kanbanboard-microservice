@@ -11,6 +11,44 @@ spec:
       labels:
         app: cloud-gateway-app
     spec:
+      initContainers:
+      - name: wait-for-services
+        image: busybox
+        command:
+          - 'sh'
+          - '-c'
+          - |
+            until wget --spider $NOTIFICATION_MANAGEMENT_URL/actuator/info; do
+              echo "waiting for task management"
+              sleep 5
+            done
+
+            until wget --spider $TASK_SERVICE/health; do
+              echo "waiting for task management"
+              sleep 5
+            done
+
+            until wget --spider $USER_SERVICE/health; do
+              echo "waiting for task management"
+              sleep 5
+            done
+        env:
+          - name: NOTIFICATION_MANAGEMENT_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: notification_management_url  
+          - name: TASK_SERVICE
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: task_management_url  
+          - name: USER_SERVICE
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: user_management_url  
+
       containers:
       - name: cloud-gateway-app
         image: srishti77/api-gateway:2.0.0

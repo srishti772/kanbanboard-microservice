@@ -11,6 +11,58 @@ spec:
       labels:
         app: user-management-app
     spec:
+      initContainers:
+        - name: wait-for-mysql
+          image: mysql:latest # to run mysql client
+          command: ['sh', '-c', 'until mysql -h $SQL_HOST -u $MYSQL_USERNAME -p$MYSQL_PASSWORD -e "SHOW DATABASES;"; do echo "Waiting for MySQL..."; sleep 5; done;']
+          env:
+            - name: SQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: sql_host
+            - name: MYSQL_USERNAME
+              value: "root"
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: myapp-secrets
+                  key: mysql_root_password
+
+        - name: wait-for-services
+          image: busybox
+          command:
+          - 'sh'
+          - '-c'
+          - |
+
+            echo "Waiting for Zipkin..."
+            until wget --spider $ZIPKIN_URL/zipkin/; do
+              echo "waiting for Zipkin"
+              sleep 5
+            done
+            echo "Zipkin is ready."
+
+            echo "Waiting for Config Server..."
+            until wget --spider $CONFIG_SERVER_URL/taskmanagement/default; do
+              echo "waiting for Config Server"
+              sleep 5
+            done
+            echo "Config Server is ready."
+
+          env:
+            - name: CONFIG_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: config_server_url
+            - name: ZIPKIN_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: zipkin_url
+
+
       containers:
       - name: user-management-app
         image: srishti77/user-management:2.0.1

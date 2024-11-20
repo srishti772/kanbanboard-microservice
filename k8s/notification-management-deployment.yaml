@@ -11,6 +11,48 @@ spec:
       labels:
         app: notification-management-app
     spec:
+      initContainers:
+      - name: wait-for-services
+        image: busybox
+        command:
+          - 'sh'
+          - '-c'
+          - |
+
+            echo "Waiting for RabbitMQ..."
+            until nc -z $RABBITMQ_HOST 5672; do echo "waiting for RabbitMQ"; sleep 5; done;
+            echo "RabbitMQ is ready."
+
+            echo "Waiting for Zipkin..."
+            until wget --spider $ZIPKIN_URL/zipkin/; do
+              echo "waiting for Zipkin"
+              sleep 5
+            done
+            echo "Zipkin is ready."
+
+            echo "Waiting for Config Server..."
+            until wget --spider $CONFIG_SERVER_URL/notificationmanagement/default; do
+              echo "waiting for Config Server"
+              sleep 5
+            done
+            echo "Config Server is ready."
+        env:
+          - name: RABBITMQ_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: rabbitmq_host  
+          - name: ZIPKIN_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: zipkin_url
+          - name: CONFIG_SERVER_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: config_server_url
+
       containers:
       - name: notification-management-app
         image: srishti77/notification-management:2.0.0

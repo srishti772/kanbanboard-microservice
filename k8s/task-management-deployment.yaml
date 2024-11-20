@@ -12,6 +12,56 @@ spec:
       labels:
         app: task-management-app
     spec:
+      initContainers:
+      - name: wait-for-services
+        image: busybox
+        command:
+          - 'sh'
+          - '-c'
+          - |
+            echo "Waiting for MongoDB..."
+            until nc -z $MONGODB_HOST 27017; do echo "waiting for MongoDB"; sleep 5; done;
+            echo "MongoDB is ready."
+
+            echo "Waiting for Zipkin..."
+            until wget --spider $ZIPKIN_URL/zipkin/; do
+              echo "waiting for Zipkin"
+              sleep 5
+            done
+            echo "Zipkin is ready."
+
+            echo "Waiting for Config Server..."
+            until wget --spider $CONFIG_SERVER_URL/taskmanagement/default; do
+              echo "waiting for Config Server"
+              sleep 5
+            done
+            echo "Config Server is ready."
+
+
+            echo "Waiting for RabbitMQ..."
+            until nc -z $RABBITMQ_HOST 5672; do echo "waiting for RabbitMQ"; sleep 5; done;
+            echo "RabbitMQ is ready."
+        env:
+          - name: MONGODB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: mongodb_host
+          - name: ZIPKIN_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: zipkin_url
+          - name: CONFIG_SERVER_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: config_server_url
+          - name: RABBITMQ_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: rabbitmq_host
       containers:
       - name: task-management-app
         image: srishti77/task-management:2.0.0
