@@ -13,25 +13,31 @@ spec:
     spec:
       containers:
       - name: cloud-gateway-app
-        image: srishti77/api-gateway:1.0.1
+        image: srishti77/api-gateway:2.0.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 8060
         env:
         - name: CONFIG_SERVER_URL
           valueFrom:
             configMapKeyRef:
-              name: eureka-cm
+              name: app-config
               key: config_server_url
-        - name: EUREKA_SERVER_ADDRESS
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: eureka_service_address 
         - name: ZIPKIN_BASE_URL
           valueFrom:
             configMapKeyRef:
-              name: eureka-cm
-              key: zipkin_url                
+              name: app-config
+              key: zipkin_url  
+        - name: TASK_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: task_management_url  
+        - name: USER_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: user_management_url                
 ---
 
 apiVersion: v1

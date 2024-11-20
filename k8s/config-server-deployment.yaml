@@ -13,72 +13,11 @@ spec:
     spec:
       containers:
       - name: config-server-app
-        image: srishti77/config-server:1.0.6
+        image: srishti77/config-server:2.0.0
+        imagePullPolicy: Always
         ports:
-
         - containerPort: 8088
-        env:
-        - name: EUREKA_SERVER_ADDRESS
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: eureka_service_address
-        - name: SQL_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: sql_host
-        - name: MONGODB_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: myapp-secrets
-              key: mongo_root_username
-        - name: MONGODB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: myapp-secrets
-              key: mongo_root_password
-        - name: MONGODB_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: mongodb_host  
-        - name: ZIPKIN_BASE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: zipkin_url  
-        - name: EUREKA_SERVER_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: eureka_host  
-        - name: EUREKA_SERVER_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: eureka_port  
-        - name: TASK_MANAGEMENT
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: task_management  
-        - name: RABBITMQ_URL
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: rabbitmq_host  
-        - name: EUREKA_SERVER_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: eureka_host 
-        - name: EUREKA_SERVER_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: eureka_port              
-              
+       
 ---
 
 apiVersion: v1

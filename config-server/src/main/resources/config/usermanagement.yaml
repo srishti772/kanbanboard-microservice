@@ -1,18 +1,6 @@
 server:
   port: 8080
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
-    healthcheck:
-      enabled: true
-      url: http://${USER_MANAGEMENT:localhost}:8080/health
-  instance:
-    appname: user-management
-    instance-id: user-management
-    preferIpAddress: true
-
 spring:
   datasource:
     url: jdbc:mysql://${SQL_HOST:localhost}:3306/myapp_db

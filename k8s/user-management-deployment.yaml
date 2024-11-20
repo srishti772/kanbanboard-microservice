@@ -13,19 +13,21 @@ spec:
     spec:
       containers:
       - name: user-management-app
-        image: srishti77/user-management:1.0.1
+        image: srishti77/user-management:2.0.1
+        imagePullPolicy: Always
+
         ports:
         - containerPort: 8080
         env:
         - name: CONFIG_SERVER_URL
           valueFrom:
             configMapKeyRef:
-              name: eureka-cm
+              name: app-config
               key: config_server_url
         - name: SQL_HOST
           valueFrom:
             configMapKeyRef:
-              name: eureka-cm
+              name: app-config
               key: sql_host
         - name: MYSQL_PASSWORD
           valueFrom:
@@ -34,16 +36,16 @@ spec:
               key: mysql_root_password
         - name: MYSQL_USERNAME
           value: "root"
-        - name: EUREKA_SERVER_ADDRESS
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: eureka_service_address 
         - name: ZIPKIN_BASE_URL
           valueFrom:
             configMapKeyRef:
-              name: eureka-cm
-              key: zipkin_url                           
+              name: app-config
+              key: zipkin_url 
+        - name: TASK_SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: task_management_url                                          
 ---
 
 apiVersion: v1

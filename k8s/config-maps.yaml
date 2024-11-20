@@ -1,15 +1,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: eureka-cm
+  name: app-config
 data:
-  eureka_service_address: "http://eureka-0.eureka:8761/eureka"
-  eureka_host: "eureka-0.eureka"
-  eureka_port: "8761"
   config_server_url:  "http://config-server-svc"
   sql_host: "mysql-0.mysql"
   mongodb_host: "mongodb-0.mongodb"
   zipkin_url: "http://zipkin-svc:9411"
-  task_management: "task-management-svc"
   rabbitmq_host: "rabbitmq-svc"
   rabbitmq_uri: "amqp://rabbitmq-svc:5672"
+  task_management_url: "http://task-management-svc"
+  user_management_url:  "http://user-management-svc"
+  task_management: "task-management-svc"

@@ -3,7 +3,7 @@ const taskRoutes = require("./routes/taskRoutes");
 const { connectDB } = require("./config/db");
 const errorHandler = require("./utils/errorHandler");
 const loadConfig = require("./config/configLoader");
-const registerService = require("./config/eurekaClient");
+
 const {setupRabbitMQ} = require('./rabbitMQ/initializer');
 const mongoose = require("mongoose"); 
 const dotenvExpand = require('dotenv-expand');
@@ -44,7 +44,7 @@ const startServer = async () => {
     // Zipkin Trace Middleware
     const tracer = getTracer();
     app.use(
-      expressMiddleware({ tracer, serviceName: process.env.EUREKA_APPNAME })
+      expressMiddleware({ tracer, serviceName: process.env.SERVICE_NAME })
     );
 
     //create rabbitMQqueues
@@ -80,13 +80,6 @@ const startServer = async () => {
     app.listen(port, async () => {
       console.log(`Server running on http://localhost:${port}`);
 
-      registerService()
-        .then(() => {
-          console.log("Service successfully registered with Eureka.");
-        })
-        .catch((error) => {
-          console.error("Failed to register service with Eureka:", error);
-        });
     });
   } catch (error) {
     console.error("Error starting server:", error);

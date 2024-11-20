@@ -13,25 +13,22 @@ spec:
     spec:
       containers:
       - name: notification-management-app
-        image: srishti77/notification-management:1.0.3
+        image: srishti77/notification-management:2.0.0
+        imagePullPolicy: Always
+
         ports:
         - containerPort: 8020
         env:
         - name: CONFIG_SERVER_URL
           valueFrom:
             configMapKeyRef:
-              name: eureka-cm
+              name: app-config
               key: config_server_url
         - name: RABBITMQ_URL
           valueFrom:
             configMapKeyRef:
-              name: eureka-cm
+              name: app-config
               key: rabbitmq_host  
-        - name: EUREKA_SERVER_ADDRESS
-          valueFrom:
-            configMapKeyRef:
-              name: eureka-cm
-              key: eureka_service_address
         - name: GMAIL_USERNAME
           valueFrom:
             secretKeyRef:
@@ -45,7 +42,7 @@ spec:
         - name: ZIPKIN_BASE_URL
           valueFrom:
             configMapKeyRef:
-              name: eureka-cm
+              name: app-config
               key: zipkin_url 
 
 ---

@@ -9,21 +9,6 @@ mongodb:
 rabbitmq:
   host: ${RABBITMQ_URI}
 
-# Eureka instance configuration
-eureka:
-  appName: taskmanagement
-  instanceId: task-management
-  hostName: ${TASK_MANAGEMENT_HOST}
-  ipAddr:  ${TASK_MANAGEMENT_IP}
-  vipAddress: taskmanagement
-  secureVipAddress: taskmanagement
-  dataCenterName: MyOwn
-
-# Eureka server configuration
-eurekaServer:
-  host: ${EUREKA_SERVER_HOST}
-  port: ${EUREKA_SERVER_PORT}
-  servicePath: /eureka/apps/
 
 # Zipkin configuration
 zipkin:

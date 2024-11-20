@@ -1,14 +1,6 @@
 server:
   port: 8020
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
-  instance:
-    appname: notification-management
-    instance-id: notification-management
-    preferIpAddress: true
 
 management:
   zipkin:
@@ -43,6 +35,3 @@ spring:
           auth: true
           starttls:
             enable: true
-  zipkin:
-    enabled: true
-    baseUrl: ${ZIPKIN_BASE_URL}
