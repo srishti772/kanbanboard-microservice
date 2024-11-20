@@ -48,7 +48,8 @@ spec:
               configMapKeyRef:
                 name: app-config
                 key: user_management_url  
-
+      imagePullSecrets:
+      - name: my-ecr-secret
       containers:
       - name: cloud-gateway-app
         image: ECR_REGISTRY/api-gateway:IMAGE_TAG

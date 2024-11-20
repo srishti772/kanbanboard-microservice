@@ -11,6 +11,8 @@ spec:
       labels:
         app: user-management-app
     spec:
+      imagePullSecrets:
+      - name: my-ecr-secret
       initContainers:
         - name: wait-for-mysql
           image: mysql:latest # to run mysql client

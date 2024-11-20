@@ -11,6 +11,8 @@ spec:
       labels:
         app: config-server-app
     spec:
+      imagePullSecrets:
+      - name: my-ecr-secret
       containers:
       - name: config-server-app
         image: ECR_REGISTRY/config-server:IMAGE_TAG 

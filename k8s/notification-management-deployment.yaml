@@ -11,6 +11,8 @@ spec:
       labels:
         app: notification-management-app
     spec:
+      imagePullSecrets:
+      - name: my-ecr-secret
       initContainers:
       - name: wait-for-services
         image: busybox
