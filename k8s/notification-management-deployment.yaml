@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: notification-management-app
-        image: srishti77/notification-management:1.0.2
+        image: srishti77/notification-management:1.0.3
         ports:
         - containerPort: 8020
         env:
