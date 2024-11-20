@@ -64,7 +64,7 @@ spec:
                 key: rabbitmq_host
       containers:
       - name: task-management-app
-        image: "ECR_REGISTRY/task-management:IMAGE_TAG" 
+        image: ECR_REGISTRY/task-management:IMAGE_TAG
 
         imagePullPolicy: Always
 

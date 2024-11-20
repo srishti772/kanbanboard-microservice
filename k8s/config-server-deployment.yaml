@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: config-server-app
-        image: "ECR_REGISTRY/config-server:IMAGE_TAG" 
+        image: ECR_REGISTRY/config-server:IMAGE_TAG 
         imagePullPolicy: Always
         ports:
         - containerPort: 8088
