@@ -3,7 +3,7 @@
 **/.env
 **/.env.config
 **/.gitignore
-
+**/*.bak
 **/node_modules/
 node_modules/
 

@@ -51,7 +51,7 @@ spec:
 
       containers:
       - name: cloud-gateway-app
-        image: srishti77/api-gateway:2.0.0
+        image: "ECR_REGISTRY/api-gateway:IMAGE_TAG" 
         imagePullPolicy: Always
         ports:
         - containerPort: 8060

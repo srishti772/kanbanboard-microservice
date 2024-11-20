@@ -1,35 +1,4 @@
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mysql-persistent-volume
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: manual
-  hostPath:
-    path: /mnt/data
-    type: DirectoryOrCreate
 
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pvc
-spec:
-  resources:
-    requests:
-      storage: 1Gi
-  volumeMode: Filesystem
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-
-
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -60,15 +29,18 @@ spec:
         volumeMounts:
         - name: mysql-init-db
           mountPath: /docker-entrypoint-initdb.d
-        - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
-      volumes:
-        - name: mysql-persistent-storage
-          persistentVolumeClaim:
-            claimName: mysql-pvc
-        - name: mysql-init-db
-          configMap:
-            name: mysql-init-db
+        - name: ebs-volume
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: ebs-volume
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: gp2
 
 
 ---

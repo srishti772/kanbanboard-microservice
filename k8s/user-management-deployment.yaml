@@ -65,7 +65,7 @@ spec:
 
       containers:
       - name: user-management-app
-        image: srishti77/user-management:2.0.1
+        image: "ECR_REGISTRY/user-management:IMAGE_TAG" 
         imagePullPolicy: Always
 
         ports:

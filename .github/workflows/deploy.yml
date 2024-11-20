@@ -1,0 +1,83 @@
+name: Build and Push Docker Images to ECR
+on:
+  push:
+    branches:
+      - main 
+  pull_request:
+    branches:
+      - main
+jobs:
+  k8s-deployment:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: Set short git commit SHA
+        id: commit
+        uses: prompt/actions-commit-hash@v2
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up AWS CLI for Dev
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      # Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Set up environment variables for AWS account and repository name
+      - name: Set environment variables
+        run: |
+          echo "AWS_REGION=${{ vars.AWS_REGION }}" >> $GITHUB_ENV
+          echo "EKS_CLUSTER_NAME=${{ vars.EKS_CLUSTER_NAME }}" >> $GITHUB_ENV
+          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }} " >> $GITHUB_ENV
+          echo "IMAGE_TAG=${{ steps.commit.outputs.short }} " >> $GITHUB_ENV
+
+      # Loop through each microservice directory and build/push images
+      - name: Build and Push Docker images
+        run: |
+          echo "AWS_REGION=$AWS_REGION"
+          echo "IMAGE_TAG=$IMAGE_TAG"
+          echo "ECR_REGISTRY=$ECR_REGISTRY"
+          echo "EKS_CLUSTER_NAME=$EKS_CLUSTER_NAME"
+          cd k8s
+          # List of microservice directories
+          services=("api-gateway" "config-server" "notification-management", task-management", "user-management")  
+
+          for service in "${services[@]}"
+          do
+            echo "Building and pushing Docker image for $service"
+            
+            # Go into the service directory
+            cd $service
+
+            # Build Docker image
+            docker build -t $ECR_REGISTRY/$service:$IMAGE_TAG .
+       
+            # Push Docker image to ECR
+            docker push $ECR_REGISTRY/$service:$IMAGE_TAG
+
+            # Return to the root directory
+            cd ..
+
+          done
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
+
+      - name: Deploy to EKS
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
+          IMAGE_TAG: ${{ steps.commit.outputs.short }}
+        run: |
+          sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" manifests/hello-app-deployment.yaml && \
+          kubectl apply -f ./k8s/
