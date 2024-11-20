@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-management-app
+spec:
+  selector:
+    matchLabels:
+      app: user-management-app
+  template:
+    metadata:
+      labels:
+        app: user-management-app
+    spec:
+      containers:
+      - name: user-management-app
+        image: srishti77/user-management:1.0.1
+        ports:
+        - containerPort: 8080
+        env:
+        - name: CONFIG_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: config_server_url
+        - name: SQL_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: sql_host
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: myapp-secrets
+              key: mysql_root_password
+        - name: MYSQL_USERNAME
+          value: "root"
+        - name: EUREKA_SERVER_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: eureka_service_address 
+        - name: ZIPKIN_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: zipkin_url                           
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-management-svc
+spec:
+  selector:
+    app: user-management-app
+  ports:
+  - port: 80
+    targetPort: 8080
+

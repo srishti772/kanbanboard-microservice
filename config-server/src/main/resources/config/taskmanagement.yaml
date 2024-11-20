@@ -2,27 +2,30 @@ server:
   port: 8000
 
 mongodb:
-  uri: mongodb://localhost:27017/kanbanboard
-
+  username: ${MONGODB_USERNAME}
+  password: ${MONGODB_PASSWORD}
+  host: ${MONGODB_HOST}
+  
 rabbitmq:
-  host: amqp://localhost:5672
+  host: ${RABBITMQ_URI}
 
 # Eureka instance configuration
 eureka:
   appName: taskmanagement
   instanceId: task-management
-  hostName: localhost
-  ipAddr: 127.0.0.1
+  hostName: ${TASK_MANAGEMENT_HOST}
+  ipAddr:  ${TASK_MANAGEMENT_IP}
   vipAddress: taskmanagement
   secureVipAddress: taskmanagement
   dataCenterName: MyOwn
 
 # Eureka server configuration
 eurekaServer:
-  host: localhost
-  port: 8761
+  host: ${EUREKA_SERVER_HOST}
+  port: ${EUREKA_SERVER_PORT}
   servicePath: /eureka/apps/
 
 # Zipkin configuration
 zipkin:
-  baseUrl: http://localhost:9411
+  baseUrl: ${ZIPKIN_BASE_URL}
+

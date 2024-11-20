@@ -13,6 +13,7 @@ const loadConfig = async () => {
   try {
     const response = await axios.get(
       `${CONFIG_SERVER_URL}/${SERVICE_NAME}/default`
+     
     );
     const config = response.data;
 

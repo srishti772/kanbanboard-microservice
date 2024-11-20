@@ -4,27 +4,30 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761//eureka/
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
   instance:
     appname: notification-management
     instance-id: notification-management
-
+    preferIpAddress: true
 
 management:
+  zipkin:
+    tracing:  
+      endpoint: ${ZIPKIN_BASE_URL}
   tracing:
     sampling:
       probability: 1.0
   endpoints:
     web:
       exposure:
-        include: health, info
+        include: health,info
   health:
     rabbit:
       enabled: true
 
 spring:
   rabbitmq:
-    host: localhost
+    host: ${RABBITMQ_URL:localhost}
     username: guest
     password: guest
     exchange: task_exchange
@@ -32,11 +35,14 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: kanbanboardbysrishti@gmail.com
-    password: qwrwiorregkqiwbl
+    username: ${GMAIL_USERNAME}
+    password: ${GMAIL_PASSWORD}
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+  zipkin:
+    enabled: true
+    baseUrl: ${ZIPKIN_BASE_URL}

@@ -30,11 +30,16 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761//eureka/
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
   instance:
     appname: api-gateway
     instance-id: api-gateway
+    preferIpAddress: true
+    
 management:
+  zipkin:
+    tracing:  
+      endpoint: ${ZIPKIN_BASE_URL}
   tracing:
     sampling:
       probability: 1.0

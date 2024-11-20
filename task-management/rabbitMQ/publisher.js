@@ -9,7 +9,7 @@ const publishToExchange = (exchangeName, routingkey, message) => {
     connection.createChannel((err, channel) => {
       if (err) throw err;
 
-      channel.assertExchange(exchangeName, 'direct' , { durable: false });
+      channel.assertExchange(exchangeName, 'topic' , { durable: false });
       channel.publish(exchangeName, routingkey, Buffer.from(message), {
         persistent: true,
       });

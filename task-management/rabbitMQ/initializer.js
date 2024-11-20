@@ -15,7 +15,7 @@ const setupRabbitMQ = () => {
       const routingKey2 = 'updated';
 
       // Step 1: Create exchange
-      channel.assertExchange(exchangeName, 'direct', { durable: false });
+      channel.assertExchange(exchangeName, 'topic', { durable: false });
 
       // Step 2: Create queue
       channel.assertQueue(queueName, { durable: false });

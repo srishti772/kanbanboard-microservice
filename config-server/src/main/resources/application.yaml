@@ -1,10 +1,40 @@
 spring:
-    application:
-        name: configserver
-    profiles:
-        active: native
+  application:
+    name: configserver
+  profiles:
+    active: native
+  cloud:
+    config:
+      allow-override: true
+      override-none: true
+      server:
+        enabled: true
+        native:
+          search-locations: classpath:/config/
 
 
 server:
-    port: 8088
+  port: 8088
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+
+  instance:
+    appname: config-server
+    instance-id: config-server
+    preferIpAddress: true
+
+logging:
+  level:
+    org:
+      springframework:
+        core:
+          env: DEBUG
+
+test:
+  placeholder: ${ZIPKIN_BASE_URL:NOT_SET}
 

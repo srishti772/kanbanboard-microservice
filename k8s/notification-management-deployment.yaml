@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-management-app
+spec:
+  selector:
+    matchLabels:
+      app: notification-management-app
+  template:
+    metadata:
+      labels:
+        app: notification-management-app
+    spec:
+      containers:
+      - name: notification-management-app
+        image: srishti77/notification-management:1.0.2
+        ports:
+        - containerPort: 8020
+        env:
+        - name: CONFIG_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: config_server_url
+        - name: RABBITMQ_URL
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: rabbitmq_host  
+        - name: EUREKA_SERVER_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: eureka_service_address
+        - name: GMAIL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: myapp-secrets
+              key: gmail_username       
+        - name: GMAIL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: myapp-secrets
+              key: gmail_password    
+        - name: ZIPKIN_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: zipkin_url 
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-management-svc
+spec:
+  selector:
+    app: notification-management-app
+  ports:
+  - port: 80
+    targetPort: 8020
+

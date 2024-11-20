@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-management-app
+spec:
+  replicas: 3 
+  selector:
+    matchLabels:
+      app: task-management-app
+  template:
+    metadata:
+      labels:
+        app: task-management-app
+    spec:
+      containers:
+      - name: task-management-app
+        image: srishti77/task-management:1.1.1
+        imagePullPolicy: Always
+
+        ports:
+        - containerPort: 8000
+        env:
+        - name: CONFIG_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: config_server_url
+        - name: SERVICE_NAME
+          value: "taskmanagement"     
+        - name: ZIPKIN_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: zipkin_url 
+        - name: MONGODB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: myapp-secrets
+              key: mongo_root_username
+        - name: MONGODB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: myapp-secrets
+              key: mongo_root_password
+        - name: MONGODB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: mongodb_host  
+        - name: EUREKA_SERVER_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: eureka_host 
+        - name: EUREKA_SERVER_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: eureka_port 
+        - name: RABBITMQ_URI
+          valueFrom:
+            configMapKeyRef:
+              name: eureka-cm
+              key: rabbitmq_uri  
+        - name: TASK_MANAGEMENT_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP 
+        - name: TASK_MANAGEMENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP                                            
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: task-management-svc
+spec:
+  selector:
+    app: task-management-app
+  ports:
+  - port: 80
+    targetPort: 8000

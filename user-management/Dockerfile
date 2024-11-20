@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN mvn install
+RUN mvn clean install -DskipTests
 
-EXPOSE 8088
+EXPOSE 8080
 
 CMD ["mvn", "spring-boot:run"]

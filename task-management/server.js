@@ -6,6 +6,9 @@ const loadConfig = require("./config/configLoader");
 const registerService = require("./config/eurekaClient");
 const {setupRabbitMQ} = require('./rabbitMQ/initializer');
 const mongoose = require("mongoose"); 
+const dotenvExpand = require('dotenv-expand');
+const dotenv = require('dotenv');
+
 
 const {
   initializeTracer,
@@ -20,16 +23,18 @@ const startServer = async () => {
     console.log("loading config");
     await loadConfig(); // Load configuration from Config Server
 
+    const envConfig = dotenv.config({ path: '.env.config' });
+    dotenvExpand.expand(envConfig);
+
     // Initialize Zipkin Tracer
     await initializeTracer();
 
     // Log loaded environment variables
 
     const port = process.env.SERVER_PORT;
-    const mongoUri = process.env.MONGODB_URI; // Get MongoDB URI from environment variables
 
     // Connect to the database
-    await connectDB(mongoUri);
+    await connectDB();
 
     // Middleware
     app.use(express.json());

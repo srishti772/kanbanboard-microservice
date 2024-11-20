@@ -1,0 +1,42 @@
+# Ignore node_modules (we will install it in the Dockerfile)
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore environment files
+**/.env
+**/.env.*
+
+# Ignore IDE specific files
+.idea/
+.vscode/
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore Dockerfile itself (optional if not needed in image)
+Dockerfile
+
+# Ignore build directories
+/dist/
+/build/
+
+# Ignore test files and directories (optional, if you don't need them in the image)
+test/
+tests/
+
+# Ignore the npm debug log file
+npm-debug.log
+
+# Ignore coverage folder from testing tools like jest, mocha
+coverage/
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore files related to version control (if you're using git)
+.git/
+.gitignore
