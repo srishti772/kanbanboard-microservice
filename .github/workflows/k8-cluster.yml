@@ -53,23 +53,17 @@ jobs:
 
           for service in "${services[@]}"
           do
-            echo "Building and pushing Docker image for $service"
-            
-            # Go into the service directory
-            ls
-            echo "cd into $service"
-            cd $service
-            echo "Files in $service"
-            ls
+              echo "Building and pushing Docker image for $service"
+      
+              # List files in the root directory
+              ls
+              echo "Building Docker image in $service directory"
 
-            # Build Docker image
-            docker build -t "$ECR_REGISTRY/$service:$IMAGE_TAG" . > /dev/null 2>&1
-       
-            # Push Docker image to ECR
-            docker push "$ECR_REGISTRY/$service:$IMAGE_TAG"
+              # Build Docker image directly from the service directory without cd
+              docker build -t "$ECR_REGISTRY/$service:$IMAGE_TAG" "$service" > /dev/null 2>&1
 
-            # Return to the root directory
-            cd ..
+              # Push Docker image to ECR
+              docker push "$ECR_REGISTRY/$service:$IMAGE_TAG"
 
           done
 
