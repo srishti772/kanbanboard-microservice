@@ -49,7 +49,7 @@ jobs:
           echo "EKS_CLUSTER_NAME=$EKS_CLUSTER_NAME"
           cd k8s
           # List of microservice directories
-          services=("api-gateway" "config-server" "notification-management", task-management", "user-management")  
+          services=("api-gateway" "config-server" "notification-management", "task-management", "user-management")  
 
           for service in "${services[@]}"
           do
