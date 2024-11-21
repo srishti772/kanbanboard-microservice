@@ -73,6 +73,8 @@ jobs:
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
           cd k8s
+          kubectl get secret my-ecr-secret || kubectl delete secret my-ecr-secret
+
           kubectl create secret docker-registry my-ecr-secret \
           --docker-server=$ECR_REGISTRY \
           --docker-username=AWS \
