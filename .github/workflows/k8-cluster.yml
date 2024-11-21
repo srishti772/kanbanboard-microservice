@@ -58,7 +58,7 @@ jobs:
               ls
               echo "Building Docker image in $service directory"
 
-              docker build -t "$ECR_REGISTRY/$service:$IMAGE_TAG" "$service" > /dev/null 2>&1
+              docker build -t "$ECR_REGISTRY/$service:$IMAGE_TAG" "$service" 
 
               docker push "$ECR_REGISTRY/$service:$IMAGE_TAG"
 
