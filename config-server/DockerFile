@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN mvn install
+RUN mvn clean install -DskipTests
 
 EXPOSE 8088
 
