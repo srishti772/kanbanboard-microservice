@@ -73,14 +73,20 @@ jobs:
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
           cd k8s
-          kubectl get secret my-ecr-secret || kubectl delete secret my-ecr-secret
 
-          kubectl create secret docker-registry my-ecr-secret \
-          --docker-server=$ECR_REGISTRY \
-          --docker-username=AWS \
-          --docker-password=$(aws ecr get-login-password --region us-east-1) \
-          --docker-email=srishti77@gmail.com
+          # Check if the secret exists, and create it only if it doesn't
+          if ! kubectl get secret my-ecr-secret > /dev/null 2>&1; then
+            kubectl create secret docker-registry my-ecr-secret \
+              --docker-server=$ECR_REGISTRY \
+              --docker-username=AWS \
+              --docker-password=$(aws ecr get-login-password --region us-east-1) \
+              --docker-email=srishti77@gmail.com
+          else
+            echo "Secret my-ecr-secret already exists, skipping creation."
+          fi
+
           cd ..
+          
           sed -i.bak "s|ECR_REGISTRY|$ECR_REGISTRY|g" k8s/*.yaml
           sed -i.bak "s|IMAGE_TAG|$IMAGE_TAG|g" k8s/*.yaml
           kubectl apply -f ./k8s/
