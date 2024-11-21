@@ -74,7 +74,7 @@ jobs:
         run: |
           cd k8s
           kubectl create secret docker-registry my-ecr-secret \
-          --docker-server=537124970289.dkr.ecr.us-east-1.amazonaws.com \
+          --docker-server=$ECR_REGISTRY \
           --docker-username=AWS \
           --docker-password=$(aws ecr get-login-password --region us-east-1) \
           --docker-email=srishti77@gmail.com
