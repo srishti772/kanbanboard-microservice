@@ -55,8 +55,11 @@ jobs:
           do
               echo "Building and pushing Docker image for $service"
       
+              cd $service
               echo "Current directory: $(pwd)"
               ls -la
+              cd ..
+              echo "Current directory: $(pwd)"
 
               echo "Building Docker image in $service directory"
 
