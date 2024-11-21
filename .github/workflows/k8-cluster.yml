@@ -48,6 +48,7 @@ jobs:
           echo "ECR_REGISTRY=$ECR_REGISTRY"
           echo "EKS_CLUSTER_NAME=$EKS_CLUSTER_NAME"
           cd k8s
+          ls
           # List of microservice directories
           services=("api-gateway" "config-server" "notification-management", "task-management", "user-management")  
 
