@@ -60,10 +60,10 @@ jobs:
             ls
 
             # Build Docker image
-            docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$service:$IMAGE_TAG .
+            docker build -t "$ECR_REGISTRY/$service:$IMAGE_TAG" .
        
             # Push Docker image to ECR
-            docker push $ECR_REGISTRY/$service:$IMAGE_TAG
+            docker push "$ECR_REGISTRY/$service:$IMAGE_TAG"
 
             # Return to the root directory
             cd ..
