@@ -55,15 +55,10 @@ jobs:
           do
               echo "Building and pushing Docker image for $service"
       
-              cd $service
-              echo "Current directory: $(pwd)"
-              ls -la
-              cd ..
-              echo "Current directory: $(pwd)"
-
+              ls
               echo "Building Docker image in $service directory"
 
-              docker build -t "$ECR_REGISTRY/$service:$IMAGE_TAG" "$service" 
+              docker build -t "$ECR_REGISTRY/$service:$IMAGE_TAG" "$service" > /dev/null 2>&1
 
               docker push "$ECR_REGISTRY/$service:$IMAGE_TAG"
 
@@ -82,7 +77,7 @@ jobs:
           --docker-server=537124970289.dkr.ecr.us-east-1.amazonaws.com \
           --docker-username=AWS \
           --docker-password=$(aws ecr get-login-password --region us-east-1) \
-          --docker-email=srishti77@gmail.com>
+          --docker-email=srishti77@gmail.com
           cd ..
           sed -i.bak "s|ECR_REGISTRY|$ECR_REGISTRY|g" k8s/*.yaml
           sed -i.bak "s|IMAGE_TAG|$IMAGE_TAG|g" k8s/*.yaml
