@@ -55,7 +55,9 @@ jobs:
           do
               echo "Building and pushing Docker image for $service"
       
-              ls
+              echo "Current directory: $(pwd)"
+              ls -la
+
               echo "Building Docker image in $service directory"
 
               docker build -t "$ECR_REGISTRY/$service:$IMAGE_TAG" "$service" 
