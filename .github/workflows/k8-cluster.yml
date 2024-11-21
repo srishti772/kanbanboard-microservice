@@ -49,20 +49,17 @@ jobs:
           echo "EKS_CLUSTER_NAME=$EKS_CLUSTER_NAME"
           
           # List of microservice directories
-          services=("api-gateway" "config-server" "notification-management", "task-management", "user-management")  
+          services=("api-gateway" , "config-server" , "notification-management", "task-management", "user-management")  
 
           for service in "${services[@]}"
           do
               echo "Building and pushing Docker image for $service"
       
-              # List files in the root directory
               ls
               echo "Building Docker image in $service directory"
 
-              # Build Docker image directly from the service directory without cd
               docker build -t "$ECR_REGISTRY/$service:$IMAGE_TAG" "$service" > /dev/null 2>&1
 
-              # Push Docker image to ECR
               docker push "$ECR_REGISTRY/$service:$IMAGE_TAG"
 
           done
