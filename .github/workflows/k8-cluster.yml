@@ -37,8 +37,8 @@ jobs:
         run: |
           echo "AWS_REGION=${{ vars.AWS_REGION }}" >> $GITHUB_ENV
           echo "EKS_CLUSTER_NAME=${{ vars.EKS_CLUSTER_NAME }}" >> $GITHUB_ENV
-          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }} " >> $GITHUB_ENV
-          echo "IMAGE_TAG=${{ steps.commit.outputs.short }} " >> $GITHUB_ENV
+          echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${{ steps.commit.outputs.short }}" >> $GITHUB_ENV
 
       # Loop through each microservice directory and build/push images
       - name: Build and Push Docker images
