@@ -47,8 +47,7 @@ jobs:
           echo "IMAGE_TAG=$IMAGE_TAG"
           echo "ECR_REGISTRY=$ECR_REGISTRY"
           echo "EKS_CLUSTER_NAME=$EKS_CLUSTER_NAME"
-          cd k8s
-          ls
+          
           # List of microservice directories
           services=("api-gateway" "config-server" "notification-management", "task-management", "user-management")  
 
@@ -78,13 +77,13 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
-
+          cd k8s
           kubectl create secret docker-registry my-ecr-secret \
           --docker-server=537124970289.dkr.ecr.us-east-1.amazonaws.com \
           --docker-username=AWS \
           --docker-password=$(aws ecr get-login-password --region us-east-1) \
           --docker-email=srishti77@gmail.com>
-          
+          cd ..
           sed -i.bak "s|ECR_REGISTRY|$ECR_REGISTRY|g" k8s/*.yaml
           sed -i.bak "s|IMAGE_TAG|$IMAGE_TAG|g" k8s/*.yaml
           kubectl apply -f ./k8s/
