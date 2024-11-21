@@ -57,9 +57,10 @@ jobs:
             
             # Go into the service directory
             cd $service
+            ls
 
             # Build Docker image
-            docker build -t $ECR_REGISTRY/$service:$IMAGE_TAG .
+            docker buildx build --platform linux/amd64 -t $ECR_REGISTRY/$service:$IMAGE_TAG .
        
             # Push Docker image to ECR
             docker push $ECR_REGISTRY/$service:$IMAGE_TAG
